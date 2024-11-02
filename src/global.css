@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--white);
+  color: var(--secondary);
+}
+
+
+:root { 
+  --background: #FFEDD0;
+  --background-login: #FFE0AF;
+  --primary: #FDBA34;
+  --primary-hover: #FFA500;
+  --secondary: #5C5C5C;
+  --white: #f5f5f5;
+  --black: #000000;
+  --border-items: #D9D9D9;
+  --placeholder: #C4C4C4;
+  --font-family: 'Kufam', sans-serif;
+  --container-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
