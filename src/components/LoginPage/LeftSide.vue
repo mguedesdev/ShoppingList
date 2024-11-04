@@ -35,7 +35,7 @@ export default {
 .text-container h2 {
   font-weight: bold;
   color: var(--black);
-  font-size: 24px;
+  font-size: 28px;
 
   @media (max-width: 768px) {
     font-size: 20px;
@@ -43,9 +43,9 @@ export default {
 }
 
 .text-container p {
-  font-size: 16px;
-  font-weight: 400;
-  width: 70%;
+  font-size: 18px;
+  font-weight: 500;
+  width: 80%;
 
   @media (max-width: 768px) {
     font-size: 14px;
