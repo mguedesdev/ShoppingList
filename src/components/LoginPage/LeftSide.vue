@@ -20,7 +20,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .left-side {
   flex: 3;
   background-color: var(--background-login);
@@ -34,7 +34,7 @@ export default {
 
 .text-container h2 {
   font-weight: bold;
-  color: var(--black);
+  color: var(--secondary);
   font-size: 28px;
 
   @media (max-width: 768px) {

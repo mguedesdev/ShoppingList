@@ -38,7 +38,7 @@
 <script>
 import router from '@/router';
 import FormInput from './FormInput.vue';
-import { auth } from '@/firebase';
+import { auth } from '@/firebase/firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import notyf from '@/notyf';
 
@@ -168,7 +168,7 @@ export default {
 
 .title-container h1 {
   font-weight: bold;
-  color: var(--black);
+  color: var(--secondary);
   font-size: 24px;
 }
 

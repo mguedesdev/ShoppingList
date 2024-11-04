@@ -55,7 +55,6 @@ export default {
 .accordion-category {
   width: 100%;
   border-bottom: 1px solid var(--border-itens);
-  padding-bottom: 10px;
 }
 
 .header {
@@ -63,12 +62,18 @@ export default {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  padding: 10px 0;
 }
 
 .subcategory-title {
   font-size: 14px;
   font-weight: bold;
   color: var(--primary);
+  width: 100%;
+}
+
+.header:hover .subcategory-title {
+  color: var(--secondary);
 }
 
 .content {

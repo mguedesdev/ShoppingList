@@ -8,9 +8,9 @@
       <li v-for="subcategory in items" :key="subcategory.category_id">
         <AccordionCategory :title="subcategory.name">
           <ul class="itens-list">
-            <ItemList v-for="item in subcategory.items" :key="item.id" :name="item.name">
+            <ItemList v-for="item in subcategory.items" :key="item.id" :name="item">
               <template v-slot:options>
-                <BaseButton text="Adicionar" icon="plus" size="small" color="success" />
+                <BaseButton text="Adicionar" icon="plus" size="small" color="success" @click="addItem(item)" />
               </template>
             </ItemList>
           </ul>
@@ -19,7 +19,7 @@
     </ul>
 
     <div class="footer-container">
-      <BaseButton text="Customizar Itens" icon="pen-to-square" />
+      <BaseButton text="Salvar e customizar" icon="pen-to-square" @click="saveList" />
     </div>
   </div>
 </template>
@@ -29,7 +29,6 @@ import AccordionCategory from '../AccordionCategory.vue';
 import BaseButton from '../ButtonBase.vue';
 import ItemList from '../ItemList.vue';
 import SearchInput from '../SearchInput.vue';
-import Subcategory from '@/mock/SelectItems';
 
 export default {
   name: 'SelectItens',
@@ -39,11 +38,23 @@ export default {
     ItemList,
     AccordionCategory
   },
-  data() {
-    return {
-      items: Subcategory,
-    };
+  props: {
+    items: {
+      type: Array,
+      required: true,
+    },
   },
+  methods: {
+    addItem(item) {
+      this.$emit('addItem', item);
+    },
+    removeItem(item) {
+      this.$emit('removeItem', item);
+    },
+    saveList() {
+      this.$emit('saveItems');
+    },
+  }
 };
 </script>
 
@@ -83,7 +94,6 @@ export default {
   margin-top: 6px;
   overflow: auto;
   list-style: none;
-  gap: 20px;
 }
 
 .main-list>li {
@@ -102,8 +112,9 @@ export default {
   gap: 10px;
   display: flex;
   flex-direction: column;
-  margin-top: 16px;
+  margin-bottom: 16px;
 }
+
 
 .footer-container {
   display: flex;

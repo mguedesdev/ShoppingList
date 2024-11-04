@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import normalizeWord from '@/utils/normalizeWord';
+
 export default {
   name: 'SideBar',
   data() {
@@ -40,8 +42,11 @@ export default {
   methods: {
     selectCategory(category) {
       this.activeCategory = category;
-      // Lógica para mudar os itens da lista com base na categoria selecionada
+      this.$emit('select-category', normalizeWord(category));
     }
+  },
+  mounted() {
+    this.selectCategory('Alimentos Básicos');
   }
 }
 </script>
