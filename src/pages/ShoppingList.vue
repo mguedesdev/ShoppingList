@@ -4,6 +4,9 @@
     <div class="content">
       <NavigationBar />
       <div class="main-content">
+        <div class="main-container">
+          <SelectItens />
+        </div>
       </div>
     </div>
   </div>
@@ -11,6 +14,7 @@
 
 <script>
 import NavigationBar from '@/components/ShoppingPage/NavigationBar.vue';
+import SelectItens from '@/components/ShoppingPage/SelectItens.vue';
 import SideBar from '@/components/ShoppingPage/SideBar.vue';
 
 
@@ -19,7 +23,8 @@ export default {
   name: 'ShoppingList',
   components: {
     SideBar,
-    NavigationBar
+    NavigationBar,
+    SelectItens
   }
 };
 </script>
@@ -40,6 +45,17 @@ export default {
   padding: 20px;
   height: 100%;
   overflow-y: auto;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
 }
 
 h1 {

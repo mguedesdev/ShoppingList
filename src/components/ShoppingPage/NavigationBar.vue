@@ -39,10 +39,12 @@ export default {
 
 <style scoped>
 .navigation-bar {
-  padding: 20px 30px;
+  padding: 0px 25px;
+  margin-top: 25px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  min-height: 25px;
 }
 
 .nav-links {
