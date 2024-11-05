@@ -47,7 +47,6 @@ export default {
   border-radius: 5px;
   padding: 10px 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
 }
 
 .search-icon {

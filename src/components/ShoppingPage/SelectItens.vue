@@ -2,11 +2,11 @@
   <div class="select-itens-container">
     <div class="header-container">
       <h1>Selecione os itens</h1>
-      <SearchInput icon="magnifying-glass" placeholder="Pesquisar itens" />
+      <SearchInput icon="magnifying-glass" placeholder="Pesquisar itens" v-model="searchQuery" />
     </div>
     <ul class="main-list">
       <template v-if="!isLoading">
-        <li v-for="subcategory in items" :key="subcategory.category_id">
+        <li v-for="subcategory in filteredSubcategories" :key="subcategory.category_id">
           <AccordionCategory :title="subcategory.name">
             <ul class="itens-list">
               <ItemList v-for="item in subcategory.items" :key="item.id" :name="item">
@@ -18,9 +18,9 @@
           </AccordionCategory>
         </li>
       </template>
-      <template v-else>
-        <h1>Carregando...</h1>
-      </template>
+      <div class="loading-container" v-else>
+        <LoadingSpinner />
+      </div>
     </ul>
 
     <div class="footer-container">
@@ -33,6 +33,7 @@
 import AccordionCategory from '../AccordionCategory.vue';
 import BaseButton from '../ButtonBase.vue';
 import ItemList from '../ItemList.vue';
+import LoadingSpinner from '../LoadingSpinner.vue';
 import SearchInput from '../SearchInput.vue';
 
 export default {
@@ -41,7 +42,8 @@ export default {
     BaseButton,
     SearchInput,
     ItemList,
-    AccordionCategory
+    AccordionCategory,
+    LoadingSpinner,
   },
   props: {
     items: {
@@ -53,6 +55,11 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      searchQuery: '',
+    };
+  },
   methods: {
     addItem(item) {
       this.$emit('addItem', item);
@@ -63,7 +70,30 @@ export default {
     saveList() {
       this.$emit('saveItems');
     },
-  }
+  },
+  computed: {
+    filteredSubcategories() {
+      if (!this.searchQuery) {
+        return this.items;
+      }
+
+      return this.items
+        .map(subcategory => {
+          const filteredItems = subcategory.items.filter(item =>
+            item.toLowerCase().includes(this.searchQuery.toLowerCase())
+          );
+          console.log('filteredItems:', filteredItems);
+          if (filteredItems.length > 0) {
+            return {
+              ...subcategory,
+              items: filteredItems,
+            };
+          }
+        })
+        .filter(subcategory => subcategory);
+    },
+  },
+
 };
 </script>
 
@@ -133,5 +163,14 @@ export default {
   margin-top: 16px;
   border-top: 1px solid var(--border-itens);
   padding-top: 10px;
+}
+
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
 }
 </style>
