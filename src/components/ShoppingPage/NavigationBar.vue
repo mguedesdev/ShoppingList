@@ -22,19 +22,20 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+
 export default {
   name: 'NavigationBar',
-  data() {
-    return {
-      currentTab: 'AddItens'
-    };
+  computed: {
+    ...mapState('shoppingList', ['currentTab']),
   },
   methods: {
+    ...mapActions('shoppingList', ['setCurrentTab']),
     selectTab(tab) {
-      this.currentTab = tab;
-    }
-  }
-}
+      this.setCurrentTab(tab);
+    },
+  },
+};
 </script>
 
 <style scoped>

@@ -1,12 +1,12 @@
 <template>
   <div class="shopping-list-page">
-    <SideBar @select-category="fetchSubcategories" />
+    <SideBar />
     <div class="content">
       <NavigationBar />
       <div class="main-content">
         <div class="main-container">
-          <SelectItens :items="subcategories" @addItem="addItem" @removeItem="removeItem" @saveItems="saveList"
-            :isLoading="isLoading" />
+          <SelectItens v-if="currentTab === 'AddItens'" />
+          <CustomItens v-if="currentTab === 'CustomItens'" />
         </div>
       </div>
     </div>
@@ -17,8 +17,7 @@
 import NavigationBar from '@/components/ShoppingPage/NavigationBar.vue';
 import SelectItens from '@/components/ShoppingPage/SelectItens.vue';
 import SideBar from '@/components/ShoppingPage/SideBar.vue';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '@/firebase/firebase';
+import { mapActions, mapState, } from 'vuex';
 
 export default {
   name: 'ShoppingList',
@@ -27,49 +26,24 @@ export default {
     NavigationBar,
     SelectItens
   },
-  data() {
-    return {
-      subcategories: [],
-      selectedItems: [],
-      isLoading: false,
-    };
+  computed: {
+    ...mapState('shoppingList', ['currentTab', 'activeCategory']),
   },
   methods: {
-    async fetchSubcategories(categoryName) {
-      this.isLoading = true;
-      try {
-        const categoryDocRef = doc(db, 'categories', categoryName);
-        console.log('Categoria:', categoryName);
-        const categoryDoc = await getDoc(categoryDocRef);
+    ...mapActions('shoppingList', ['fetchSubcategories',]),
 
-        if (categoryDoc.exists()) {
-          const categoryData = categoryDoc.data();
-          this.subcategories = categoryData.subcategories;
-        } else {
-          console.error('Categoria não encontrada');
-        }
-        this.isLoading = false;
-      }
-      catch (error) {
-        console.error('Erro ao buscar subcategorias:', error);
-      }
-    },
-    addItem(item) {
-      this.selectedItems.push(item);
-    },
-    removeItem(item) {
-      const index = this.selectedItems.indexOf(item);
-      if (index !== -1) {
-        this.selectedItems.splice(index, 1);
-      }
-    },
-    saveList() {
-      // Lógica para salvar a lista de compras
-      console.log('Lista de compras salva:', this.selectedItems);
+  },
+  mounted() {
+    this.fetchSubcategories(this.activeCategory.id);
+  },
+  watch: {
+    activeCategory() {
+      this.fetchSubcategories(this.activeCategory.id);
     },
   },
 };
 </script>
+
 
 <style scoped>
 .shopping-list-page {

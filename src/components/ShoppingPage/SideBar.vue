@@ -4,7 +4,7 @@
       <h3>Categorias</h3>
     </div>
     <ul class="category-list">
-      <li v-for="category in categories" :key="category.name" :class="{ active: activeCategory === category.name }"
+      <li v-for="category in categories" :key="category.name" :class="{ active: activeCategory.name === category.name }"
         @click="selectCategory(category.name)">
         <font-awesome-icon :icon="category.icon" />
         <span :title="category.name">{{ category.name }}</span>
@@ -15,12 +15,12 @@
 
 <script>
 import normalizeWord from '@/utils/normalizeWord';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'SideBar',
   data() {
     return {
-      activeCategory: 'Alimentos Básicos',
       categories: [
         { name: 'Alimentos Básicos', icon: 'bowl-food' },
         { name: 'Laticínios e Ovos', icon: 'egg' },
@@ -39,17 +39,21 @@ export default {
       ]
     };
   },
-  methods: {
-    selectCategory(category) {
-      this.activeCategory = category;
-      this.$emit('select-category', normalizeWord(category));
-    }
+  computed: {
+    ...mapState('shoppingList', ['activeCategory']),
   },
-  mounted() {
-    this.selectCategory('Alimentos Básicos');
-  }
-}
+  methods: {
+    ...mapActions('shoppingList', ['setActiveCategory']),
+    selectCategory(category) {
+      this.setActiveCategory({
+        name: category,
+        id: normalizeWord(category),
+      });
+    },
+  },
+};
 </script>
+
 
 <style scoped>
 .sidebar {

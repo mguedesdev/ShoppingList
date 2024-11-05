@@ -11,14 +11,15 @@
             <ul class="itens-list">
               <ItemList v-for="item in subcategory.items" :key="item.id" :name="item">
                 <template v-slot:options>
-                  <BaseButton text="Adicionar" icon="plus" size="small" color="success" @click="addItem(item)" />
+                  <BaseButton text="Adicionar" icon="plus" size="small" color="success"
+                    @click="addItemToStore(item, subcategory.name, subcategory.parentCategory)" />
                 </template>
               </ItemList>
             </ul>
           </AccordionCategory>
         </li>
       </template>
-      <div class="loading-container" v-else>
+      <div v-else class="loading-container">
         <LoadingSpinner />
       </div>
     </ul>
@@ -35,6 +36,7 @@ import BaseButton from '../ButtonBase.vue';
 import ItemList from '../ItemList.vue';
 import LoadingSpinner from '../LoadingSpinner.vue';
 import SearchInput from '../SearchInput.vue';
+import { mapState, mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'SelectItens',
@@ -45,14 +47,11 @@ export default {
     AccordionCategory,
     LoadingSpinner,
   },
-  props: {
-    items: {
-      type: Array,
-      required: true,
-    },
-    isLoading: {
-      type: Boolean,
-      required: true,
+  computed: {
+    ...mapState('shoppingList', ['subcategories', 'isLoading']),
+    ...mapGetters('shoppingList', ['filteredSubcategories']),
+    filteredSubcategories() {
+      return this.$store.getters['shoppingList/filteredSubcategories'](this.searchQuery);
     },
   },
   data() {
@@ -61,39 +60,21 @@ export default {
     };
   },
   methods: {
-    addItem(item) {
-      this.$emit('addItem', item);
+    ...mapActions('shoppingList', ['addItem', 'saveShoppingList', 'setCurrentTab']),
+
+    addItemToStore(item, subcategoryName, parentCategory) {
+      this.addItem({
+        itemName: item,
+        subcategoryName: subcategoryName,
+        parentCategory: parentCategory,
+      });
     },
-    removeItem(item) {
-      this.$emit('removeItem', item);
-    },
+
     saveList() {
-      this.$emit('saveItems');
+      this.saveShoppingList();
+      this.setCurrentTab('CustomItens');
     },
   },
-  computed: {
-    filteredSubcategories() {
-      if (!this.searchQuery) {
-        return this.items;
-      }
-
-      return this.items
-        .map(subcategory => {
-          const filteredItems = subcategory.items.filter(item =>
-            item.toLowerCase().includes(this.searchQuery.toLowerCase())
-          );
-          console.log('filteredItems:', filteredItems);
-          if (filteredItems.length > 0) {
-            return {
-              ...subcategory,
-              items: filteredItems,
-            };
-          }
-        })
-        .filter(subcategory => subcategory);
-    },
-  },
-
 };
 </script>
 
