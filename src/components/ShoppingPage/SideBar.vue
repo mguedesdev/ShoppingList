@@ -23,7 +23,7 @@ export default {
       activeCategory: 'Alimentos Básicos',
       categories: [
         { name: 'Alimentos Básicos', icon: 'bowl-food' },
-        { name: 'Laticínio e Ovos', icon: 'egg' },
+        { name: 'Laticínios e Ovos', icon: 'egg' },
         { name: 'Proteínas', icon: 'cow' },
         { name: 'Pães e Produtos de Panificação', icon: 'bread-slice' },
         { name: 'Grãos e Cereais', icon: 'wheat-awn' },
@@ -62,7 +62,7 @@ export default {
 }
 
 .sidebar-title {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   border-bottom: 2px solid var(--primary);
 }
 
@@ -76,6 +76,9 @@ export default {
 .category-list {
   list-style: none;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .category-list li {

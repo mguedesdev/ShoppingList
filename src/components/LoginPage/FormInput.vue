@@ -5,8 +5,8 @@
       <font-awesome-icon v-if="type === 'email' || type === 'password'" :icon="type === 'email' ? 'envelope' : 'lock'"
         :class="{ focused: isFocused }" class="input-icon" />
       <input :type="isPasswordVisible ? 'text' : type" :id="name" :name="name" :placeholder="placeholder"
-        v-model="inputValue" @focus="isFocused = true" @blur="isFocused = false"
-        @input="$emit('update:modelValue', inputValue)" required />
+        v-model="inputValue" @focus=handleFocus @blur=handleBlur @input="$emit('update:modelValue', inputValue)"
+        required />
       <font-awesome-icon v-if="type === 'password'" :icon="isPasswordVisible ? 'eye' : 'eye-slash'"
         class="toggle-password-icon" @click="togglePasswordVisibility" />
     </div>
@@ -41,12 +41,20 @@ export default {
   watch: {
     modelValue(newVal) {
       this.inputValue = newVal;
-    }
+    },
   },
   methods: {
     togglePasswordVisibility() {
       this.isPasswordVisible = !this.isPasswordVisible;
-    }
+    },
+    handleFocus() {
+      this.isFocused = true;
+      this.$emit('showValidate', true);
+    },
+    handleBlur() {
+      this.isFocused = false;
+      this.$emit('showValidate', false);
+    },
   }
 };
 </script>
@@ -55,7 +63,7 @@ export default {
 .input-container {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin-top: 20px;
   width: 100%;
 }
 
@@ -104,7 +112,6 @@ input::placeholder {
 input:focus {
   outline: none;
   border-color: var(--primary);
-  /* box-shadow: 0 0 5px var(--primary); */
 }
 
 .toggle-password-icon {

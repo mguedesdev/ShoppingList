@@ -66,8 +66,9 @@ export default {
 }
 
 .subcategory-title {
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 16px;
+  padding: 8px 0;
+  font-weight: 500;
   color: var(--primary);
   width: 100%;
 }

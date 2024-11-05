@@ -45,7 +45,7 @@ export default {
   align-items: center;
   background-color: #fff;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 10px 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
 }

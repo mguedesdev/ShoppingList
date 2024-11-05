@@ -5,7 +5,8 @@
       <NavigationBar />
       <div class="main-content">
         <div class="main-container">
-          <SelectItens :items="subcategories" @addItem="addItem" @removeItem="removeItem" @saveItems="saveList" />
+          <SelectItens :items="subcategories" @addItem="addItem" @removeItem="removeItem" @saveItems="saveList"
+            :isLoading="isLoading" />
         </div>
       </div>
     </div>
@@ -30,10 +31,12 @@ export default {
     return {
       subcategories: [],
       selectedItems: [],
+      isLoading: false,
     };
   },
   methods: {
     async fetchSubcategories(categoryName) {
+      this.isLoading = true;
       try {
         const categoryDocRef = doc(db, 'categories', categoryName);
         console.log('Categoria:', categoryName);
@@ -45,6 +48,7 @@ export default {
         } else {
           console.error('Categoria não encontrada');
         }
+        this.isLoading = false;
       }
       catch (error) {
         console.error('Erro ao buscar subcategorias:', error);
@@ -80,7 +84,7 @@ export default {
 }
 
 .main-content {
-  padding: 20px;
+  padding: 25px 20px;
   height: 100%;
   overflow-y: auto;
 }

@@ -5,17 +5,22 @@
       <SearchInput icon="magnifying-glass" placeholder="Pesquisar itens" />
     </div>
     <ul class="main-list">
-      <li v-for="subcategory in items" :key="subcategory.category_id">
-        <AccordionCategory :title="subcategory.name">
-          <ul class="itens-list">
-            <ItemList v-for="item in subcategory.items" :key="item.id" :name="item">
-              <template v-slot:options>
-                <BaseButton text="Adicionar" icon="plus" size="small" color="success" @click="addItem(item)" />
-              </template>
-            </ItemList>
-          </ul>
-        </AccordionCategory>
-      </li>
+      <template v-if="!isLoading">
+        <li v-for="subcategory in items" :key="subcategory.category_id">
+          <AccordionCategory :title="subcategory.name">
+            <ul class="itens-list">
+              <ItemList v-for="item in subcategory.items" :key="item.id" :name="item">
+                <template v-slot:options>
+                  <BaseButton text="Adicionar" icon="plus" size="small" color="success" @click="addItem(item)" />
+                </template>
+              </ItemList>
+            </ul>
+          </AccordionCategory>
+        </li>
+      </template>
+      <template v-else>
+        <h1>Carregando...</h1>
+      </template>
     </ul>
 
     <div class="footer-container">
@@ -41,6 +46,10 @@ export default {
   props: {
     items: {
       type: Array,
+      required: true,
+    },
+    isLoading: {
+      type: Boolean,
       required: true,
     },
   },
@@ -112,7 +121,7 @@ export default {
   gap: 10px;
   display: flex;
   flex-direction: column;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 

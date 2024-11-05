@@ -14,7 +14,27 @@
             @input="clearErrorMessage" />
 
           <FormInput label="Senha" type="password" name="password" placeholder="•••••••••••" v-model="form.password"
-            @input="clearErrorMessage" />
+            @input="handlePasswordInput" @showValidate="handleShowValidate" />
+
+          <div v-if="isRegister" :class="{ focused: showValidate }" class="password-validation">
+            <div class="validation-item">
+              <font-awesome-icon icon="circle-check" :class="{ 'valid-icon': hasMinLength }" />
+              <p>A senha deve ter pelo menos 6 caracteres.</p>
+            </div>
+            <div class="validation-item">
+              <font-awesome-icon icon="circle-check" :class="{ 'valid-icon': hasUpperCase }" />
+              <p>A senha deve conter pelo menos uma letra maiúscula.</p>
+            </div>
+            <div class="validation-item">
+              <font-awesome-icon icon="circle-check" :class="{ 'valid-icon': hasLowerCase }" />
+              <p>A senha deve conter pelo menos uma letra minúscula.</p>
+            </div>
+            <div class="validation-item">
+              <font-awesome-icon icon="circle-check" :class="{ 'valid-icon': hasNumber }" />
+              <p>A senha deve conter pelo menos um número.</p>
+            </div>
+          </div>
+
 
           <FormInput v-if="isRegister" label="Confirmar Senha" type="password" name="confirmPassword"
             placeholder="•••••••••••" v-model="form.confirmPassword" @input="clearErrorMessage" />
@@ -31,6 +51,7 @@
           <span class="register-button" @click="toggleForm">{{ isRegister ? 'Entre' : 'Cadastre-se' }}</span>
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -41,7 +62,6 @@ import FormInput from './FormInput.vue';
 import { auth } from '@/firebase/firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import notyf from '@/notyf';
-
 
 export default {
   name: 'RightSide',
@@ -57,25 +77,45 @@ export default {
       },
       isRegister: false,
       errorMessage: '',
+      showValidate: false,
+      hasMinLength: false,
+      hasUpperCase: false,
+      hasLowerCase: false,
+      hasNumber: false,
+      minLength: 6,
     };
   },
   methods: {
-    validatePassword(password) {
-      const minLength = 6;
-      const hasUpperCase = /[A-Z]/.test(password);
-      const hasLowerCase = /[a-z]/.test(password);
-      const hasNumber = /\d/.test(password);
+    // Função para validar a senha enquanto o usuário digita
+    checkPasswordCriteria(password) {
+      this.hasMinLength = password.length >= this.minLength;
+      this.hasUpperCase = /[A-Z]/.test(password);
+      this.hasLowerCase = /[a-z]/.test(password);
+      this.hasNumber = /\d/.test(password);
+    },
 
-      if (password.length < minLength) {
-        return `A senha deve ter pelo menos ${minLength} caracteres.`;
+    // Função chamada durante a digitação da senha
+    handlePasswordInput() {
+      this.checkPasswordCriteria(this.form.password);
+      this.clearErrorMessage(); // Limpar a mensagem de erro ao alterar o campo
+    },
+
+    // Função para validar a senha durante a submissão
+    validatePassword(password) {
+
+      // Chama a função de verificar critérios para atualizar os estados
+      this.checkPasswordCriteria(password);
+
+      if (password.length < this.minLength) {
+        return `A senha deve ter pelo menos ${this.minLength} caracteres.`;
       }
-      if (!hasUpperCase) {
+      if (!this.hasUpperCase) {
         return "A senha deve conter pelo menos uma letra maiúscula.";
       }
-      if (!hasLowerCase) {
+      if (!this.hasLowerCase) {
         return "A senha deve conter pelo menos uma letra minúscula.";
       }
-      if (!hasNumber) {
+      if (!this.hasNumber) {
         return "A senha deve conter pelo menos um número.";
       }
       return '';
@@ -84,14 +124,12 @@ export default {
     async handleSubmit() {
       this.errorMessage = '';
       if (this.isRegister) {
-
         if (this.form.password !== this.form.confirmPassword) {
           this.errorMessage = "As senhas não coincidem.";
           return;
         }
 
         const passwordError = this.validatePassword(this.form.password);
-
         if (passwordError) {
           this.errorMessage = passwordError;
           return;
@@ -133,9 +171,11 @@ export default {
     clearErrorMessage() {
       this.errorMessage = '';
     },
+    handleShowValidate(show) {
+      this.showValidate = show;
+    },
   },
-
-}
+};
 </script>
 
 <style scoped>
@@ -198,6 +238,8 @@ export default {
   font-size: 16px;
   transition: background-color 0.3s ease;
   font-weight: 500;
+  margin-top: 20px;
+
 }
 
 .submit-button:hover {
@@ -224,6 +266,7 @@ export default {
   font-size: 14px;
   font-weight: 500;
   transition: color 0.3s ease;
+
 }
 
 .register-button:hover {
@@ -239,6 +282,43 @@ export default {
   border-radius: 5px;
   text-align: center;
   width: 100%;
-  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.validation-item {
+  color: var(--secondary);
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.password-validation {
+  padding-left: 10px;
+  font-size: 14px;
+  color: var(--secondary);
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  max-height: 0;
+  transition: all 0.6s ease;
+  overflow: hidden;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.password-validation.focused {
+  color: var(--primary);
+  max-height: 150px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.validation-item .valid-icon {
+  color: var(--success);
+}
+
+.validation-item font-awesome-icon {
+  color: var(--secondary);
+  font-size: 16px;
 }
 </style>
