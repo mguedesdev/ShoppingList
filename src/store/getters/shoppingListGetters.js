@@ -18,4 +18,11 @@ export default {
       })
       .filter(subcategory => subcategory);
   },
+
+  selectedCategories: (state) => {
+    return state.selectedItems.map(category => category.categoryName);
+  },
+  
+  
+  
 };

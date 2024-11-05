@@ -61,7 +61,7 @@ import router from '@/router';
 import FormInput from './FormInput.vue';
 import { auth } from '@/firebase/firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import notyf from '@/notyf';
+import notyf from '@/utils/notyf';
 
 export default {
   name: 'RightSide',
@@ -86,7 +86,6 @@ export default {
     };
   },
   methods: {
-    // Função para validar a senha enquanto o usuário digita
     checkPasswordCriteria(password) {
       this.hasMinLength = password.length >= this.minLength;
       this.hasUpperCase = /[A-Z]/.test(password);
@@ -94,16 +93,13 @@ export default {
       this.hasNumber = /\d/.test(password);
     },
 
-    // Função chamada durante a digitação da senha
     handlePasswordInput() {
       this.checkPasswordCriteria(this.form.password);
-      this.clearErrorMessage(); // Limpar a mensagem de erro ao alterar o campo
+      this.clearErrorMessage();
     },
 
-    // Função para validar a senha durante a submissão
     validatePassword(password) {
 
-      // Chama a função de verificar critérios para atualizar os estados
       this.checkPasswordCriteria(password);
 
       if (password.length < this.minLength) {

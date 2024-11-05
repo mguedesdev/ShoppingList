@@ -34,11 +34,20 @@ export default {
 
   },
   mounted() {
-    this.fetchSubcategories(this.activeCategory.id);
+    if (this.currentTab === 'AddItens') {
+      this.fetchSubcategories(this.activeCategory.id);
+    }
   },
   watch: {
-    activeCategory() {
-      this.fetchSubcategories(this.activeCategory.id);
+    currentTab(newTab) {
+      if (newTab === 'AddItens') {
+        this.fetchSubcategories(this.activeCategory.id);
+      }
+    },
+    activeCategory(newCategory) {
+      if (this.currentTab === 'AddItens') {
+        this.fetchSubcategories(newCategory.id);
+      }
     },
   },
 };

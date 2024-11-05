@@ -1,5 +1,5 @@
 <template>
-  <button :class="['base-button', size, color]" @click="handleClick" :disabled="isDisabled">
+  <button :class="['base-button', size, color]" :disabled="isDisabled">
     <font-awesome-icon v-if="icon" :icon="icon" class="button-icon" />
     <span>{{ text }}</span>
   </button>
@@ -32,11 +32,6 @@ export default {
       default: false
     }
   },
-  methods: {
-    handleClick(event) {
-      this.$emit('click', event);
-    }
-  }
 };
 </script>
 

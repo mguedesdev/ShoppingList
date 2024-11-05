@@ -30,9 +30,13 @@ export default {
     ...mapState('shoppingList', ['currentTab']),
   },
   methods: {
-    ...mapActions('shoppingList', ['setCurrentTab']),
+    ...mapActions('shoppingList', ['setCurrentTab', 'setActiveCategory']),
     selectTab(tab) {
       this.setCurrentTab(tab);
+      this.setActiveCategory({
+        id: 'alimentos_basicos',
+        name: 'Alimentos Básicos',
+      })
     },
   },
 };

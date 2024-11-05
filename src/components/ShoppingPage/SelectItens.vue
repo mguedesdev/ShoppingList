@@ -48,7 +48,7 @@ export default {
     LoadingSpinner,
   },
   computed: {
-    ...mapState('shoppingList', ['subcategories', 'isLoading']),
+    ...mapState('shoppingList', ['subcategories', 'isLoading', 'selectedItems']),
     ...mapGetters('shoppingList', ['filteredSubcategories']),
     filteredSubcategories() {
       return this.$store.getters['shoppingList/filteredSubcategories'](this.searchQuery);
@@ -60,7 +60,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions('shoppingList', ['addItem', 'saveShoppingList', 'setCurrentTab']),
+    ...mapActions('shoppingList', ['addItem', 'saveShoppingList', 'setCurrentTab', 'setActiveCategory']),
 
     addItemToStore(item, subcategoryName, parentCategory) {
       this.addItem({
@@ -68,11 +68,16 @@ export default {
         subcategoryName: subcategoryName,
         parentCategory: parentCategory,
       });
+      console.log(this.selectedItems)
     },
 
     saveList() {
       this.saveShoppingList();
       this.setCurrentTab('CustomItens');
+      this.setActiveCategory({
+        id: 'alimentos_basicos',
+        name: 'Alimentos Básicos',
+      })
     },
   },
 };

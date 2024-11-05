@@ -4,8 +4,8 @@
       <h3>Categorias</h3>
     </div>
     <ul class="category-list">
-      <li v-for="category in categories" :key="category.name" :class="{ active: activeCategory.name === category.name }"
-        @click="selectCategory(category.name)">
+      <li v-for="category in filteredCategories" :key="category.name"
+        :class="{ active: activeCategory.name === category.name }" @click="selectCategory(category.name)">
         <font-awesome-icon :icon="category.icon" />
         <span :title="category.name">{{ category.name }}</span>
       </li>
@@ -15,7 +15,7 @@
 
 <script>
 import normalizeWord from '@/utils/normalizeWord';
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'SideBar',
@@ -40,7 +40,17 @@ export default {
     };
   },
   computed: {
-    ...mapState('shoppingList', ['activeCategory']),
+    ...mapState('shoppingList', ['activeCategory', 'currentTab']),
+    ...mapGetters('shoppingList', ['selectedCategories']),
+
+    filteredCategories() {
+      if (this.currentTab === 'CustomItens') {
+        return this.categories.filter(category => this.selectedCategories.includes(category.name));
+      } else {
+        return this.categories;
+      }
+    }
+
   },
   methods: {
     ...mapActions('shoppingList', ['setActiveCategory']),

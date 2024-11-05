@@ -8,25 +8,65 @@ export default {
     state.isLoading = isLoading;
   },
   [ADD_ITEM](state, item) {
-    const itemExists = state.selectedItems.some(selectedItem => 
-      selectedItem.itemName === item.itemName &&
-      selectedItem.subcategoryName === item.subcategoryName &&
-      selectedItem.parentCategory === item.parentCategory
-    );
-    if (!itemExists) {
-      state.selectedItems.push({ ...item, quantity: 1 });
+    const { itemName, subcategoryName, parentCategory } = item;
+  
+    let category = state.selectedItems.find(cat => cat.categoryName === parentCategory);
+  
+    if (!category) {
+      category = {
+        categoryName: parentCategory,
+        subcategories: []
+      };
+      state.selectedItems.push(category);
+    }
+  
+    let subcategory = category.subcategories.find(subcat => subcat.subcategoryName === subcategoryName);
+  
+    if (!subcategory) {
+      subcategory = {
+        subcategoryName: subcategoryName,
+        items: []
+      };
+      category.subcategories.push(subcategory);
+    }
+  
+    const existingItem = subcategory.items.find(existing => existing.itemName === itemName);
+  
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      subcategory.items.push({
+        itemName,
+        quantity: 1,
+      });
     }
   },
+  
   [REMOVE_ITEM](state, item) {
-    const index = state.selectedItems.findIndex(
-      selectedItem => selectedItem.itemName === item.itemName &&
-        selectedItem.subcategoryName === item.subcategoryName &&
-        selectedItem.parentCategory === item.parentCategory
-    );
-    if (index !== -1) {
-      state.selectedItems.splice(index, 1);
+    const { itemName, subcategoryName, parentCategory } = item;
+  
+    const category = state.selectedItems.find(cat => cat.categoryName === parentCategory);
+    if (!category) return;
+  
+    const subcategory = category.subcategories.find(subcat => subcat.subcategoryName === subcategoryName);
+    if (!subcategory) return; 
+  
+    const itemIndex = subcategory.items.findIndex(existing => existing.itemName === itemName);
+    if (itemIndex === -1) return;
+  
+    subcategory.items.splice(itemIndex, 1);
+  
+    if (subcategory.items.length === 0) {
+      const subcategoryIndex = category.subcategories.findIndex(subcat => subcat.subcategoryName === subcategoryName);
+      category.subcategories.splice(subcategoryIndex, 1);
+    }
+  
+    if (category.subcategories.length === 0) {
+      const categoryIndex = state.selectedItems.findIndex(cat => cat.categoryName === parentCategory);
+      state.selectedItems.splice(categoryIndex, 1);
     }
   },
+  
   [SET_ACTIVE_CATEGORY](state, category) {
     state.activeCategory = category;
   },

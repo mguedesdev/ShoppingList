@@ -1,6 +1,6 @@
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/firebase/firebase';
-import { SET_SUBCATEGORIES, SET_LOADING, SET_CURRENT_TAB, SET_ACTIVE_CATEGORY } from '../types/mutationTypes';
+import { SET_SUBCATEGORIES, SET_LOADING, SET_CURRENT_TAB, SET_ACTIVE_CATEGORY, ADD_ITEM } from '../types/mutationTypes';
 
 export default {
   async fetchSubcategories({ commit }, categoryName) {
@@ -12,7 +12,6 @@ export default {
         const categoryData = categoryDoc.data();
         commit(SET_SUBCATEGORIES, categoryData.subcategories.map(subcat => ({
           ...subcat,
-          parentCategory: categoryName
         })));
       }
     } catch (error) {
@@ -28,5 +27,11 @@ export default {
 
   setActiveCategory ({ commit }, category) {
     commit(SET_ACTIVE_CATEGORY, category);
+  },
+
+  addItem({ commit }, item) {
+    commit(ADD_ITEM, item)
   }
+
+  
 };

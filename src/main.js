@@ -3,7 +3,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import './global.css';
-import FontAwesomeIcon from './fontawesome';
+import FontAwesomeIcon from './utils/fontawesome';
 import store from './store/index';
 
 const app = createApp(App);
