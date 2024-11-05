@@ -1,6 +1,6 @@
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/firebase/firebase';
-import { SET_SUBCATEGORIES, SET_LOADING, SET_CURRENT_TAB, SET_ACTIVE_CATEGORY, ADD_ITEM, REMOVE_ITEM } from '../types/mutationTypes';
+import { SET_SUBCATEGORIES, SET_LOADING, SET_CURRENT_TAB, SET_ACTIVE_CATEGORY, ADD_ITEM, REMOVE_ITEM, SET_OPEN_PREVIEW } from '../types/mutationTypes';
 
 export default {
   async fetchSubcategories({ commit }, categoryName) {
@@ -35,6 +35,10 @@ export default {
 
   removeItem ({ commit }, item) {
     commit(REMOVE_ITEM, item)
+  },
+
+  setOpenPreview({ commit } ) {
+    commit(SET_OPEN_PREVIEW)
   }
   
 };

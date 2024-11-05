@@ -8,6 +8,10 @@
           <SelectItens v-if="currentTab === 'AddItens'" />
           <CustomizeItens v-if="currentTab === 'CustomItens'" />
         </div>
+        <div class="preview-container" :class="{ active: isOpenPreview }">
+          <PreviewList />
+        </div>
+
       </div>
     </div>
   </div>
@@ -16,6 +20,7 @@
 <script>
 import CustomizeItens from '@/components/ShoppingPage/CustomizeItens.vue';
 import NavigationBar from '@/components/ShoppingPage/NavigationBar.vue';
+import PreviewList from '@/components/ShoppingPage/PreviewList.vue';
 import SelectItens from '@/components/ShoppingPage/SelectItens.vue';
 import SideBar from '@/components/ShoppingPage/SideBar.vue';
 import { mapActions, mapState, } from 'vuex';
@@ -27,9 +32,15 @@ export default {
     NavigationBar,
     SelectItens,
     CustomizeItens,
+    PreviewList,
+  },
+  data() {
+    return {
+      previewOpen: false,
+    };
   },
   computed: {
-    ...mapState('shoppingList', ['currentTab', 'activeCategory']),
+    ...mapState('shoppingList', ['currentTab', 'activeCategory', 'isOpenPreview']),
   },
   methods: {
     ...mapActions('shoppingList', ['fetchSubcategories',]),
@@ -60,6 +71,7 @@ export default {
 .shopping-list-page {
   display: flex;
   height: 100vh;
+  position: relative;
 }
 
 .content {
@@ -72,6 +84,10 @@ export default {
   padding: 25px 20px;
   height: 100%;
   overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
 
 .main-container {
@@ -89,5 +105,24 @@ h1 {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
+}
+
+.preview-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  width: 0;
+  overflow: hidden;
+  transition: all 0.6s ease;
+}
+
+.preview-container.active {
+  width: 35%;
+  max-width: 30%;
+  transition: all 0.6s ease;
 }
 </style>

@@ -9,15 +9,17 @@
         <font-awesome-icon icon="pen-to-square" />
         Customizar itens
       </li>
-      <li :class="{ active: currentTab === 'ShareItens' }" @click="selectTab('ShareItens')">
-        <font-awesome-icon icon="paper-plane" />
-        Compartilhar
+    </ul>
+    <ul class="end-options">
+      <li @click="preview" :class="{ active: isOpenPreview }" class="preview-button">
+        <font-awesome-icon icon="eye" />
+        <span>Visualizar Lista</span>
+      </li>
+      <li @click="logout">
+        <font-awesome-icon icon="door-open" />
+        <span>Sair</span>
       </li>
     </ul>
-    <div class="logout">
-      <font-awesome-icon icon="door-open" />
-      <span>Sair</span>
-    </div>
   </nav>
 </template>
 
@@ -27,10 +29,10 @@ import { mapState, mapActions } from 'vuex';
 export default {
   name: 'NavigationBar',
   computed: {
-    ...mapState('shoppingList', ['currentTab']),
+    ...mapState('shoppingList', ['currentTab', 'isOpenPreview']),
   },
   methods: {
-    ...mapActions('shoppingList', ['setCurrentTab', 'setActiveCategory']),
+    ...mapActions('shoppingList', ['setCurrentTab', 'setActiveCategory', 'setOpenPreview']),
     selectTab(tab) {
       this.setCurrentTab(tab);
       this.setActiveCategory({
@@ -38,6 +40,13 @@ export default {
         name: 'Alimentos Básicos',
       })
     },
+    preview() {
+      this.setOpenPreview();
+    },
+    logout() {
+      this.$router.push('/');
+    },
+
   },
 };
 </script>
@@ -112,19 +121,31 @@ export default {
 
 }
 
-.logout {
+.end-options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  gap: 50px;
+}
+
+.end-options li {
   cursor: pointer;
-  transition: color 0.3s;
   color: var(--primary);
+  font-weight: 600;
+  font-size: 16px;
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 16px;
-  font-weight: 600;
   transition: all 0.3s ease;
 }
 
-.logout:hover {
+.end-options li:hover {
   color: var(--secondary);
+}
+
+.preview-button.active {
+  color: var(--success);
+  font-size: 18px;
 }
 </style>

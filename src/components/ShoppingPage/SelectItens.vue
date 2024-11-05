@@ -29,7 +29,7 @@
     </ul>
 
     <div class="footer-container">
-      <ButtonBase text="Salvar e customizar" icon="pen-to-square" @click="saveList" />
+      <ButtonBase text="Customizar" icon="pen-to-square" @click="nextStep" />
     </div>
   </div>
 </template>
@@ -64,7 +64,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions('shoppingList', ['addItem', 'removeItem', 'saveShoppingList', 'setCurrentTab', 'setActiveCategory']),
+    ...mapActions('shoppingList', ['addItem', 'removeItem', 'setCurrentTab', 'setActiveCategory']),
 
     isItemAdded(item, subcategoryName, parentCategory) {
       const category = this.selectedItems.find(cat => cat.categoryName === parentCategory);
@@ -92,8 +92,7 @@ export default {
       });
     },
 
-    saveList() {
-      this.saveShoppingList();
+    nextStep() {
       this.setCurrentTab('CustomItens');
       this.setActiveCategory({
         id: 'alimentos_basicos',

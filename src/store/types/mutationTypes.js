@@ -4,3 +4,4 @@ export const ADD_ITEM = 'ADD_ITEM';
 export const REMOVE_ITEM = 'REMOVE_ITEM';
 export const SET_ACTIVE_CATEGORY = 'SET_ACTIVE_CATEGORY';
 export const SET_CURRENT_TAB = 'SET_CURRENT_TAB';
+export const SET_OPEN_PREVIEW = 'SET_OPEN_PREVIEW';

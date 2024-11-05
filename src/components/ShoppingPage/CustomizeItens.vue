@@ -37,7 +37,7 @@
         </li>
       </ul>
       <div class="footer-container">
-        <ButtonBase text="Salvar e compartilhar" icon="pen-to-square" @click="saveList" />
+        <ButtonBase text="Compartilhar" icon="paper-plane" @click="sendList" />
       </div>
     </template>
   </div>
@@ -72,7 +72,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('shoppingList', ['setCurrentTab', 'removeItem',]),
+    ...mapActions('shoppingList', ['setOpenPreview', 'removeItem',]),
 
     addItemToStore(item, subcategoryName, parentCategory) {
       this.$store.dispatch('shoppingList/addItem', {
@@ -81,8 +81,8 @@ export default {
         parentCategory
       });
     },
-    saveList() {
-      this.setCurrentTab('ShareItens');
+    sendList() {
+      this.setOpenPreview();
     },
     decrementQuantity(item, subcategoryName, parentCategory) {
       if (item.quantity > 0) {

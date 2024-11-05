@@ -1,4 +1,4 @@
-import { SET_SUBCATEGORIES, SET_LOADING, ADD_ITEM, REMOVE_ITEM, SET_ACTIVE_CATEGORY, SET_CURRENT_TAB } from '../types/mutationTypes';
+import { SET_SUBCATEGORIES, SET_LOADING, ADD_ITEM, REMOVE_ITEM, SET_ACTIVE_CATEGORY, SET_CURRENT_TAB, SET_OPEN_PREVIEW } from '../types/mutationTypes';
 
 export default {
   [SET_SUBCATEGORIES](state, subcategories) {
@@ -72,5 +72,9 @@ export default {
   },
   [SET_CURRENT_TAB](state, tab) {
     state.currentTab = tab;
+  },
+  [SET_OPEN_PREVIEW](state) {
+    state.isOpenPreview = !state.isOpenPreview;
   }
+    
 };

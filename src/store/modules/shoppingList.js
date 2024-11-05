@@ -10,7 +10,8 @@ const state = {
     id: 'alimentos_basicos',
     name: 'Alimentos Básicos',
   },
-  currentTab: 'AddItens'
+  currentTab: 'AddItens',
+  isOpenPreview: false,
 
 };
 

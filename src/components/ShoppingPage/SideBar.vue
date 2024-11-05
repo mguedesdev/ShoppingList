@@ -5,7 +5,7 @@
     </div>
     <ul class="category-list">
       <li v-for="category in filteredCategories" :key="category.name"
-        :class="{ active: activeCategory.name === category.name }" @click="selectCategory(category.name)">
+        :class="[{ active: activeCategory.name === category.name }]" @click="selectCategory(category.name)">
         <font-awesome-icon :icon="category.icon" />
         <span :title="category.name">{{ category.name }}</span>
       </li>
@@ -69,6 +69,7 @@ export default {
 .sidebar {
   width: 280px;
   max-width: 280px;
+  min-width: 280px;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -101,13 +102,12 @@ export default {
   padding: 10px;
   cursor: pointer;
   transition: background-color 0.3s;
-
+  border-radius: 5px;
 }
 
 .category-list li.active {
   background-color: var(--primary);
   color: var(--white);
-  border-radius: 5px;
 }
 
 .category-list li:hover {
@@ -126,5 +126,11 @@ export default {
 
 .category-list li svg {
   font-size: 18px;
+}
+
+.category-list li.disabled {
+  background-color: var(--placeholder);
+  cursor: default;
+  color: var(--white);
 }
 </style>
