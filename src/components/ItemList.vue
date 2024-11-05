@@ -28,5 +28,15 @@ export default {
   padding: 10px;
   border-radius: 5px;
   border: solid 1px var(--border-itens);
+  transition: all 0.3s ease;
+  transform: translateY(0);
+  margin-top: 5px;
+
+}
+
+.item-list:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+
 }
 </style>

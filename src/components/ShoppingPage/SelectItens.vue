@@ -11,7 +11,11 @@
             <ul class="itens-list">
               <ItemList v-for="item in subcategory.items" :key="item.id" :name="item">
                 <template v-slot:options>
-                  <BaseButton text="Adicionar" icon="plus" size="small" color="success"
+                  <ButtonBase v-if="isItemAdded(item, subcategory.name, subcategory.parentCategory)" text="Remover"
+                    icon="minus" size="small" color="danger"
+                    @click="removeItemFromStore(item, subcategory.name, subcategory.parentCategory)" />
+
+                  <ButtonBase v-else text="Adicionar" icon="plus" size="small" color="success"
                     @click="addItemToStore(item, subcategory.name, subcategory.parentCategory)" />
                 </template>
               </ItemList>
@@ -25,14 +29,14 @@
     </ul>
 
     <div class="footer-container">
-      <BaseButton text="Salvar e customizar" icon="pen-to-square" @click="saveList" />
+      <ButtonBase text="Salvar e customizar" icon="pen-to-square" @click="saveList" />
     </div>
   </div>
 </template>
 
 <script>
 import AccordionCategory from '../AccordionCategory.vue';
-import BaseButton from '../ButtonBase.vue';
+import ButtonBase from '../ButtonBase.vue';
 import ItemList from '../ItemList.vue';
 import LoadingSpinner from '../LoadingSpinner.vue';
 import SearchInput from '../SearchInput.vue';
@@ -41,7 +45,7 @@ import { mapState, mapActions, mapGetters } from 'vuex';
 export default {
   name: 'SelectItens',
   components: {
-    BaseButton,
+    ButtonBase,
     SearchInput,
     ItemList,
     AccordionCategory,
@@ -60,7 +64,17 @@ export default {
     };
   },
   methods: {
-    ...mapActions('shoppingList', ['addItem', 'saveShoppingList', 'setCurrentTab', 'setActiveCategory']),
+    ...mapActions('shoppingList', ['addItem', 'removeItem', 'saveShoppingList', 'setCurrentTab', 'setActiveCategory']),
+
+    isItemAdded(item, subcategoryName, parentCategory) {
+      const category = this.selectedItems.find(cat => cat.categoryName === parentCategory);
+      if (!category) return false;
+
+      const subcategory = category.subcategories.find(sub => sub.subcategoryName === subcategoryName);
+      if (!subcategory) return false;
+
+      return subcategory.items.some(selectedItem => selectedItem.itemName === item);
+    },
 
     addItemToStore(item, subcategoryName, parentCategory) {
       this.addItem({
@@ -68,7 +82,14 @@ export default {
         subcategoryName: subcategoryName,
         parentCategory: parentCategory,
       });
-      console.log(this.selectedItems)
+    },
+
+    removeItemFromStore(item, subcategoryName, parentCategory) {
+      this.removeItem({
+        itemName: item,
+        subcategoryName: subcategoryName,
+        parentCategory: parentCategory,
+      });
     },
 
     saveList() {

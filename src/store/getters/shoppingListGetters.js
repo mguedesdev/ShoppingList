@@ -1,28 +1,39 @@
 export default {
-  filteredSubcategories: (state) => (searchQuery) => {
+  filteredSubcategories: (state) => (searchQuery, items = state.subcategories) => {
     if (!searchQuery) {
-      return state.subcategories;
+      return items;
     }
-    
-    return state.subcategories
+  
+    return items
       .map(subcategory => {
-        const filteredItems = subcategory.items.filter(item =>
-          item.toLowerCase().includes(searchQuery.toLowerCase())
-        );
+        const filteredItems = subcategory.items.filter(item => {
+          const itemName = typeof item === 'object' && item.itemName ? item.itemName : item;
+          return itemName.toLowerCase().includes(searchQuery.toLowerCase());
+        });
+        
         if (filteredItems.length > 0) {
           return {
             ...subcategory,
             items: filteredItems,
           };
         }
+        return null;
       })
-      .filter(subcategory => subcategory);
+      .filter(subcategory => subcategory !== null);
   },
+  
 
   selectedCategories: (state) => {
     return state.selectedItems.map(category => category.categoryName);
   },
-  
-  
+
+  getSubCategories: (state) => {
+    const selectedCategory = state.selectedItems.filter(category => {
+      return category.categoryName === state.activeCategory.name
+    }
+    )[0].subcategories
+
+    return selectedCategory;
+  },
   
 };

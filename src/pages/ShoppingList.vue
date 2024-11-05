@@ -6,7 +6,7 @@
       <div class="main-content">
         <div class="main-container">
           <SelectItens v-if="currentTab === 'AddItens'" />
-          <CustomItens v-if="currentTab === 'CustomItens'" />
+          <CustomizeItens v-if="currentTab === 'CustomItens'" />
         </div>
       </div>
     </div>
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import CustomizeItens from '@/components/ShoppingPage/CustomizeItens.vue';
 import NavigationBar from '@/components/ShoppingPage/NavigationBar.vue';
 import SelectItens from '@/components/ShoppingPage/SelectItens.vue';
 import SideBar from '@/components/ShoppingPage/SideBar.vue';
@@ -24,7 +25,8 @@ export default {
   components: {
     SideBar,
     NavigationBar,
-    SelectItens
+    SelectItens,
+    CustomizeItens,
   },
   computed: {
     ...mapState('shoppingList', ['currentTab', 'activeCategory']),
