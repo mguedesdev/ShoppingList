@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
   name: 'PreviewList',
@@ -50,9 +50,34 @@ export default {
     ...mapState('shoppingList', ['selectedItems']),
   },
   methods: {
-    ...mapActions('shoppingList', ['setCurrentTab']),
+
+    formatMessageForWhatsApp() {
+      let message = "Lista de compras:\n\n";
+
+      this.selectedItems.forEach(category => {
+        message += `*${category.categoryName}*\n`;
+
+        category.subcategories.forEach(subcategory => {
+          message += `  - *${subcategory.subcategoryName}*\n`;
+
+          subcategory.items.forEach(item => {
+            const quantityText = item.quantity ? ` (${item.quantity})` : '';
+            message += `    - ${item.itemName}${quantityText}\n`;
+          });
+        });
+
+        message += '\n';
+      });
+
+      return message;
+    },
+
     sendMessage() {
-      this.setCurrentTab('ShareItens');
+      const message = this.formatMessageForWhatsApp();
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+
+      window.open(whatsappUrl, '_blank');
     },
   },
 };
@@ -65,11 +90,9 @@ export default {
   gap: 10px;
   padding: 20px;
   width: 100%;
-  background-color: #e5ddd5;
   height: 100%;
   overflow-y: auto;
   border-radius: 10px;
-  border: 1px solid #ccc;
 }
 
 .message {
@@ -104,7 +127,7 @@ export default {
 .message p {
   margin: 0;
   font-size: 14px;
-
+  margin-bottom: 5px;
 }
 
 .message.sent .timestamp {
@@ -122,6 +145,7 @@ export default {
   margin-top: 20px;
   width: 100%;
   margin-top: auto;
+  padding: 10px;
 }
 
 .button-send {

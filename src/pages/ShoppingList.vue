@@ -118,11 +118,15 @@ h1 {
   width: 0;
   overflow: hidden;
   transition: all 0.6s ease;
+  background-color: #e5ddd5;
+  border: 1px solid var(--placeholder);
+  opacity: 0;
+
 }
 
 .preview-container.active {
   width: 35%;
-  max-width: 30%;
+  opacity: 1;
   transition: all 0.6s ease;
 }
 </style>
