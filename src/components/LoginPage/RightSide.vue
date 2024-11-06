@@ -42,13 +42,25 @@
             <p>{{ errorMessage }}</p>
           </div>
 
-          <button class="submit-button" type="submit">{{ isRegister ? 'Cadastrar' : 'Entrar' }}</button>
+          <button class="submit-button" type="submit" :disabled="loading">
+            <span v-if="!loading">{{ isRegister ? 'Cadastrar' : 'Entrar' }}</span>
+            <LoadingSpinner size="small" v-else />
+          </button>
+
         </form>
 
+        <div class="options">
 
-        <div class="register-container">
-          <p>{{ isRegister ? 'Já tem uma conta?' : 'Não tem uma conta?' }} </p>
-          <span class="register-button" @click="toggleForm">{{ isRegister ? 'Entre' : 'Cadastre-se' }}</span>
+
+          <div class="remember-me">
+            <input type="checkbox" id="rememberMe" v-model="form.rememberMe" />
+            <label for="rememberMe">Manter-me conectado</label>
+          </div>
+
+          <div class="register-container">
+            <p>{{ isRegister ? 'Já tem uma conta?' : 'Não tem uma conta?' }} </p>
+            <span class="register-button" @click="toggleForm">{{ isRegister ? 'Entre' : 'Cadastre-se' }}</span>
+          </div>
         </div>
       </div>
 
@@ -57,13 +69,15 @@
 </template>
 
 <script>
+import LoadingSpinner from '../LoadingSpinner.vue';
 import FormInput from './FormInput.vue';
 import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'RightSide',
   components: {
-    FormInput
+    FormInput,
+    LoadingSpinner,
   },
   data() {
     return {
@@ -71,6 +85,7 @@ export default {
         email: '',
         password: '',
         confirmPassword: '',
+        rememberMe: false,
       },
       isRegister: false,
       showValidate: false,
@@ -82,7 +97,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('auth', ['errorMessage']),
+    ...mapState('auth', ['errorMessage', 'loading']),
   },
   methods: {
     ...mapActions('auth', ['registerUser', 'loginUser', 'setErrorMessage']),
@@ -133,9 +148,17 @@ export default {
           return;
         }
 
-        await this.registerUser({ email: this.form.email, password: this.form.password });
+        await this.registerUser({
+          email: this.form.email,
+          password: this.form.password,
+          rememberMe: this.form.rememberMe
+        });
       } else {
-        await this.loginUser({ email: this.form.email, password: this.form.password });
+        await this.loginUser({
+          email: this.form.email,
+          password: this.form.password,
+          rememberMe: this.form.rememberMe
+        });
       }
     },
 
@@ -220,18 +243,25 @@ export default {
   transition: background-color 0.3s ease;
   font-weight: 500;
   margin-top: 20px;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .submit-button:hover {
   background-color: var(--primary-hover);
 }
 
+.submit-button:disabled {
+  background-color: var(--secondary);
+  cursor: default;
+  opacity: 0.5;
+}
+
 .register-container {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-top: 20px;
 }
 
 .register-container p {
@@ -301,5 +331,63 @@ export default {
 .validation-item font-awesome-icon {
   color: var(--secondary);
   font-size: 16px;
+}
+
+.options {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: var(--secondary);
+  margin-right: auto;
+}
+
+.remember-me input {
+  margin-right: 5px;
+}
+
+.remember-me input[type="checkbox"] {
+  margin-right: 5px;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 1px solid var(--secondary);
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+}
+
+.remember-me input[type="checkbox"]:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.remember-me input[type="checkbox"]:checked::before {
+  content: "\2713";
+  color: var(--white);
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 14px;
+
+}
+
+.remember-me input[type="checkbox"]:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
 }
 </style>

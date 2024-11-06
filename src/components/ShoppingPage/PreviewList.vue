@@ -21,7 +21,7 @@
           <p>- {{ subcategory.subcategoryName }}</p>
 
           <div v-for="item in subcategory.items" :key="item.itemName" class="item">
-            <p>- {{ item.itemName }}<span v-if="item.quantity" class="quantity"> ({{ item.quantity }})</span></p>
+            <p>- {{ item.itemName }}<span v-if="item.quantity" class="quantity"> ( {{ item.quantity }} unid.)</span></p>
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@ export default {
           message += `  - *${subcategory.subcategoryName}*\n`;
 
           subcategory.items.forEach(item => {
-            const quantityText = item.quantity ? ` (${item.quantity})` : '';
+            const quantityText = item.quantity ? ` ( ${item.quantity} unid.)` : '';
             message += `    - ${item.itemName}${quantityText}\n`;
           });
         });

@@ -3,7 +3,7 @@
     <SideBar />
     <div class="content">
       <NavigationBar />
-      <div class="main-content">
+      <div class="main-content" :class="{ 'preview-active': !isOpenPreview }">
         <div class="main-container">
           <SelectItens v-if="currentTab === 'AddItens'" />
           <CustomizeItens v-if="currentTab === 'CustomItens'" />
@@ -89,6 +89,10 @@ export default {
   justify-content: center;
   align-items: center;
   gap: 20px;
+}
+
+.main-content.preview-active {
+  gap: 0;
 }
 
 .main-container {

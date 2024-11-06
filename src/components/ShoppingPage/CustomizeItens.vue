@@ -42,7 +42,7 @@
     </template>
   </div>
   <ModalConfirmation v-if="modalOpen" message="Deseja realmente excluir o item?" @confirm="deleteConfirmedItem"
-    @cancel="closeModal" icon="door-open" />
+    @cancel="closeModal" icon="trash" />
 </template>
 
 <script>

@@ -9,5 +9,4 @@ export const SET_ORDERED_SELECTED_ITEMS = 'SET_ORDERED_SELECTED_ITEMS';
 
 //user
 export const SET_USER = 'SET_USER';
-export const CLEAR_USER = 'CLEAR_USER';
 export const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
