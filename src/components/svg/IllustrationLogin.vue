@@ -191,8 +191,8 @@ export default {
     width: 300px;
   }
 
-  @media (max-width: 700px) {
-    width: 200px;
+  @media (max-width: 768px) {
+    width: 150px;
   }
 }
 </style>

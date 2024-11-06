@@ -58,7 +58,6 @@
           </div>
 
           <div class="register-container">
-            <p>{{ isRegister ? 'Já tem uma conta?' : 'Não tem uma conta?' }} </p>
             <span class="register-button" @click="toggleForm">{{ isRegister ? 'Entre' : 'Cadastre-se' }}</span>
           </div>
         </div>
@@ -190,6 +189,11 @@ export default {
   justify-content: center;
   padding: 20px;
   flex-direction: column;
+
+  @media (max-width: 768px) {
+    flex: 1;
+    padding: 30px 10px;
+  }
 }
 
 .main-container {
@@ -197,12 +201,20 @@ export default {
   flex-direction: column;
   width: 60%;
   gap: 10px;
+
+  @media (max-width: 1441px) {
+    width: 80%;
+  }
 }
 
 .title-container {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 10px;
+  }
 }
 
 .list-icon {
@@ -229,6 +241,8 @@ export default {
 
 .form-container {
   width: 100%;
+
+
 }
 
 .submit-button {
@@ -335,7 +349,7 @@ export default {
 
 .options {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   margin-top: 15px;
 }
@@ -345,14 +359,13 @@ export default {
   align-items: center;
   font-size: 14px;
   color: var(--secondary);
-  margin-right: auto;
 }
 
 .remember-me input {
   margin-right: 5px;
 }
 
-.remember-me input[type="checkbox"] {
+#rememberMe {
   margin-right: 5px;
   width: 16px;
   height: 16px;
@@ -369,12 +382,12 @@ export default {
   -o-appearance: none;
 }
 
-.remember-me input[type="checkbox"]:checked {
+#rememberMe:checked {
   background-color: var(--primary);
   border-color: var(--primary);
 }
 
-.remember-me input[type="checkbox"]:checked::before {
+#rememberMe:checked::before {
   content: "\2713";
   color: var(--white);
   font-size: 12px;
@@ -386,7 +399,7 @@ export default {
 
 }
 
-.remember-me input[type="checkbox"]:hover {
+#rememberMe:hover {
   background-color: var(--primary-hover);
   border-color: var(--primary-hover);
 }

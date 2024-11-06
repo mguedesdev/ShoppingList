@@ -55,6 +55,7 @@ export default {
 .accordion-category {
   width: 100%;
   border-bottom: 1px solid var(--border-itens);
+
 }
 
 .header {
@@ -63,6 +64,10 @@ export default {
   align-items: center;
   cursor: pointer;
   padding: 10px 0;
+
+  @media (max-width: 768px) {
+    padding: 8px 0;
+  }
 }
 
 .subcategory-title {
@@ -71,6 +76,10 @@ export default {
   font-weight: 500;
   color: var(--primary);
   width: 100%;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 }
 
 .header:hover .subcategory-title {

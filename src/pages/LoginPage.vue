@@ -23,5 +23,11 @@ export default {
 .login-page {
   display: flex;
   height: 100vh;
+
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+    justify-content: flex-start;
+    overflow-y: scroll;
+  }
 }
 </style>

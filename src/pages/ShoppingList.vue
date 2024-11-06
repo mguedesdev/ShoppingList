@@ -1,17 +1,24 @@
 <template>
   <div class="shopping-list-page">
-    <SideBar />
+    <SideBar :isMobileMenuOpen="openCategoriesMobile" @closeCategoriesMobile="toggleCategoriesMobile" />
     <div class="content">
-      <NavigationBar />
-      <div class="main-content" :class="{ 'preview-active': !isOpenPreview }">
+      <NavigationBar :isMobileMenuOpen="openMenuMobile" @closeMenuMobile="toggleMenuMobile" />
+      <div class="top-bar-mobile">
+        <button class="button-categories-mobile" @click="toggleCategoriesMobile">
+          Selecionar categoria
+        </button>
+        <button class="button-menu-mobile" @click="toggleMenuMobile">
+          <font-awesome-icon icon="bars" />
+        </button>
+      </div>
+      <div class="main-content" :class="{ 'preview-active': isOpenPreview }">
         <div class="main-container">
           <SelectItens v-if="currentTab === 'AddItens'" />
           <CustomizeItens v-if="currentTab === 'CustomItens'" />
         </div>
         <div class="preview-container" :class="{ active: isOpenPreview }">
-          <PreviewList />
+          <PreviewList @closeView="togglePreview" />
         </div>
-
       </div>
     </div>
   </div>
@@ -38,13 +45,25 @@ export default {
   data() {
     return {
       previewOpen: false,
+      openCategoriesMobile: false,
+      openMenuMobile: false,
     };
   },
   computed: {
     ...mapState('shoppingList', ['currentTab', 'activeCategory', 'isOpenPreview']),
   },
   methods: {
-    ...mapActions('shoppingList', ['fetchSubcategories',]),
+    ...mapActions('shoppingList', ['fetchSubcategories', 'setOpenPreview']),
+
+    togglePreview() {
+      this.setOpenPreview();
+    },
+    toggleCategoriesMobile() {
+      this.openCategoriesMobile = !this.openCategoriesMobile;
+    },
+    toggleMenuMobile() {
+      this.openMenuMobile = !this.openMenuMobile;
+    },
 
   },
   mounted() {
@@ -73,12 +92,24 @@ export default {
   display: flex;
   height: 100vh;
   position: relative;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    overflow-x: hidden;
+  }
 }
 
 .content {
   display: flex;
   flex-direction: column;
   width: 100%;
+
+  @media (max-width: 768px) {
+    position: relative;
+    margin-top: 50px;
+    height: 88%;
+    justify-content: flex-start;
+  }
 }
 
 .main-content {
@@ -88,11 +119,27 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 0;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 }
 
 .main-content.preview-active {
-  gap: 0;
+  gap: 20px;
+
+  @media (max-width: 768px) {
+    gap: 0;
+  }
+}
+
+.main-content.preview-active .main-container {
+  @media (max-width: 768px) {
+    width: 0;
+    overflow: hidden;
+  }
+
 }
 
 .main-container {
@@ -104,6 +151,11 @@ export default {
   width: 100%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
+
+  @media (max-width: 768px) {
+    box-shadow: none;
+    border-radius: 0;
+  }
 }
 
 h1 {
@@ -127,11 +179,60 @@ h1 {
   border: 1px solid var(--placeholder);
   opacity: 0;
 
+  @media (max-width: 768px) {
+    box-shadow: none;
+    border-radius: 0;
+    position: fixed;
+    top: 0;
+  }
 }
 
 .preview-container.active {
   width: 35%;
   opacity: 1;
   transition: all 0.6s ease;
+
+  @media (max-width: 1440px) {
+    width: 50%;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.sidebar.isMobileMenuOpen {
+  @media (max-width: 768px) {
+    left: 0;
+  }
+}
+
+.top-bar-mobile {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+    background-color: var(--white);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+}
+
+.button-categories-mobile,
+.button-menu-mobile {
+  background-color: var(--secondary);
+  border: none;
+  color: var(--white);
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px;
+  border-radius: 5px;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.25); */
 }
 </style>

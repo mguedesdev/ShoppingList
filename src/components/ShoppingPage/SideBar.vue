@@ -1,5 +1,8 @@
 <template>
-  <div class="sidebar">
+  <div class="sidebar" :class="{ 'isMobileMenuOpen': isMobileMenuOpen }">
+    <button class="close-categories-mobile">
+      <font-awesome-icon icon="xmark" @click="closeMenuMobile" />
+    </button>
     <div class="sidebar-title">
       <h3>Categorias</h3>
     </div>
@@ -20,6 +23,12 @@ import { categories } from '@/constants/categories';
 
 export default {
   name: 'SideBar',
+  props: {
+    isMobileMenuOpen: {
+      type: Boolean,
+      default: false,
+    },
+  },
   computed: {
     ...mapState('shoppingList', ['activeCategory', 'currentTab']),
     ...mapGetters('shoppingList', ['selectedCategories']),
@@ -40,6 +49,10 @@ export default {
         name: category,
         id: normalizeWord(category),
       });
+      this.closeMenuMobile();
+    },
+    closeMenuMobile() {
+      this.$emit('closeCategoriesMobile');
     },
   },
 };
@@ -55,11 +68,36 @@ export default {
   display: flex;
   flex-direction: column;
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--white);
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    z-index: 1;
+    transition: all 0.3s ease;
+    height: 100%;
+  }
+}
+
+.sidebar.isMobileMenuOpen {
+  @media (max-width: 768px) {
+    left: 0;
+  }
 }
 
 .sidebar-title {
   margin-bottom: 20px;
   border-bottom: 2px solid var(--primary);
+
+  @media (max-width: 768px) {
+    margin-top: 10px;
+  }
+
 }
 
 .sidebar-title h3 {
@@ -67,6 +105,7 @@ export default {
   font-weight: bold;
   color: var(--primary);
   margin-bottom: 10px;
+
 }
 
 .category-list {
@@ -75,6 +114,8 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  overflow: auto;
+
 }
 
 .category-list li {
@@ -82,8 +123,9 @@ export default {
   align-items: center;
   padding: 10px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
   border-radius: 5px;
+
 }
 
 .category-list li.active {
@@ -113,5 +155,22 @@ export default {
   background-color: var(--placeholder);
   cursor: default;
   color: var(--white);
+}
+
+.close-categories-mobile {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1;
+    cursor: pointer;
+    color: var(--primary);
+    font-size: 20px;
+    border: none;
+    background-color: transparent;
+  }
 }
 </style>

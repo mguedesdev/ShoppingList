@@ -1,4 +1,9 @@
 <template>
+  <div class="header-mobile" :class="{ 'open': isOpenPreview }">
+    <button class="button-close-view" @click="closeView">
+      <font-awesome-icon icon="xmark" />
+    </button>
+  </div>
   <div class="chat-container">
 
     <div class="message received">
@@ -47,7 +52,7 @@ export default {
   components: {
   },
   computed: {
-    ...mapState('shoppingList', ['selectedItems']),
+    ...mapState('shoppingList', ['selectedItems', 'isOpenPreview']),
   },
   methods: {
 
@@ -79,6 +84,10 @@ export default {
 
       window.open(whatsappUrl, '_blank');
     },
+
+    closeView() {
+      this.$emit('closeView');
+    },
   },
 };
 </script>
@@ -93,6 +102,10 @@ export default {
   height: 100%;
   overflow-y: auto;
   border-radius: 10px;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 }
 
 .message {
@@ -181,5 +194,41 @@ export default {
 
 .quantity {
   font-size: 12px;
+}
+
+.header-mobile.open {
+  @media (max-width: 768px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--white);
+    z-index: 1000;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.header-mobile {
+  display: none;
+}
+
+.button-close-view {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--primary);
+  transition: all 0.3s ease;
+}
+
+.button-close-view svg {
+  width: 30px;
+  height: 30px;
 }
 </style>

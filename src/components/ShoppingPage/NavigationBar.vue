@@ -1,5 +1,8 @@
 <template>
-  <nav class="navigation-bar">
+  <nav class="navigation-bar" :class="{ 'isMobileMenuOpen': isMobileMenuOpen }">
+    <button class="close-menu-mobile">
+      <font-awesome-icon icon="xmark" @click="closeMenuMobile" />
+    </button>
     <ul class="nav-links">
       <li :class="{ active: currentTab === 'AddItens' }" @click="selectTab('AddItens')">
         <font-awesome-icon icon="plus" />
@@ -15,7 +18,7 @@
         <font-awesome-icon icon="eye" />
         <span>Visualizar Lista</span>
       </li>
-      <li @click="openModal">
+      <li @click="openModal" class="logout-button">
         <font-awesome-icon icon="door-open" />
         <span>Sair</span>
       </li>
@@ -41,6 +44,12 @@ export default {
       modalOpen: false,
     }
   },
+  props: {
+    isMobileMenuOpen: {
+      type: Boolean,
+      default: false,
+    },
+  },
   computed: {
     ...mapState('shoppingList', ['currentTab', 'isOpenPreview', 'selectedItems']),
   },
@@ -53,15 +62,22 @@ export default {
       if (tab === 'CustomItens') {
         handleCustomItensTab(this.selectedItems, this.setOrderedSelectedItems, this.setActiveCategory);
       }
+      this.closeMenuMobile();
+
     },
     preview() {
       this.setOpenPreview();
+      this.closeMenuMobile();
+
     },
     openModal() {
       this.modalOpen = true;
     },
     closeModal() {
       this.modalOpen = false;
+    },
+    closeMenuMobile() {
+      this.$emit('closeMenuMobile');
     },
 
   },
@@ -76,6 +92,30 @@ export default {
   justify-content: space-between;
   align-items: center;
   min-height: 25px;
+
+  @media (max-width: 768px) {
+    height: 100%;
+    width: 100%;
+    background-color: var(--white);
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    z-index: 1;
+    transition: all 0.3s ease;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 100%;
+    transition: all 0.3s ease;
+  }
+}
+
+.navigation-bar.isMobileMenuOpen {
+  @media (max-width: 768px) {
+    left: 0;
+  }
 }
 
 .nav-links {
@@ -83,6 +123,13 @@ export default {
   display: flex;
   gap: 30px;
   padding: 0;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    align-items: end;
+  }
 }
 
 .nav-links li {
@@ -92,11 +139,14 @@ export default {
   font-weight: 600;
   font-size: 16px;
   position: relative;
+
+
 }
 
 .nav-links li.active {
   font-size: 20px;
   color: var(--secondary);
+
 }
 
 .nav-links li::before {
@@ -144,6 +194,15 @@ export default {
   justify-content: center;
   list-style: none;
   gap: 50px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    justify-content: start;
+    align-items: end;
+    height: 100%;
+  }
 }
 
 .end-options li {
@@ -164,5 +223,29 @@ export default {
 .preview-button.active {
   color: var(--success);
   font-size: 18px;
+
+}
+
+.logout-button {
+  @media (max-width: 768px) {
+    margin-top: auto;
+  }
+}
+
+.close-menu-mobile {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1;
+    cursor: pointer;
+    color: var(--primary);
+    font-size: 20px;
+    border: none;
+    background-color: transparent;
+  }
 }
 </style>

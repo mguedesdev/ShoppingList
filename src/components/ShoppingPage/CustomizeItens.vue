@@ -144,12 +144,20 @@ export default {
   height: 100%;
   width: 100%;
   padding: 20px;
+
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
 }
 
 .select-itens-container h1 {
   font-size: 16px;
   font-weight: bold;
   color: var(--secondary);
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 }
 
 .header-container {
@@ -158,6 +166,13 @@ export default {
   justify-content: space-between;
   width: 100%;
   margin-bottom: 10px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 10px 0;
+  }
 }
 
 .main-list {
@@ -171,6 +186,11 @@ export default {
   margin-top: 6px;
   overflow: auto;
   list-style: none;
+
+  @media (max-width: 768px) {
+    padding: 0;
+    margin-top: 0;
+  }
 }
 
 .main-list>li {
@@ -184,6 +204,10 @@ export default {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    padding-left: 0;
+  }
 }
 
 .footer-container {
@@ -194,6 +218,16 @@ export default {
   margin-top: 16px;
   border-top: 1px solid var(--border-itens);
   padding-top: 10px;
+
+  @media (max-width: 768px) {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: var(--white);
+    padding: 10px;
+    border-top: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  }
 }
 
 .loading-container {
@@ -203,6 +237,8 @@ export default {
   width: 100%;
   height: 100%;
   overflow: auto;
+
+
 }
 
 .placeholder {
