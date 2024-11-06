@@ -7,6 +7,8 @@
 
 </p>
 
+#### 🌐  [ Veja o Projeto Online](https://shopping-list-mgr.vercel.app/)
+
 ## 🚀 Descrição Geral
 
 O Shopping List é uma aplicação desenvolvida para gerenciar listas de compras, permitindo ao usuário selecionar itens, personalizar quantidades e enviar a lista para o WhatsApp com uma formatação automática e intuitiva.
