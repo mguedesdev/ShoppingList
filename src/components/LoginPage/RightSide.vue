@@ -57,11 +57,8 @@
 </template>
 
 <script>
-import router from '@/router';
 import FormInput from './FormInput.vue';
-import { auth } from '@/firebase/firebase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import notyf from '@/utils/notyf';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'RightSide',
@@ -76,7 +73,6 @@ export default {
         confirmPassword: '',
       },
       isRegister: false,
-      errorMessage: '',
       showValidate: false,
       hasMinLength: false,
       hasUpperCase: false,
@@ -85,7 +81,12 @@ export default {
       minLength: 6,
     };
   },
+  computed: {
+    ...mapState('auth', ['errorMessage']),
+  },
   methods: {
+    ...mapActions('auth', ['registerUser', 'loginUser', 'setErrorMessage']),
+
     checkPasswordCriteria(password) {
       this.hasMinLength = password.length >= this.minLength;
       this.hasUpperCase = /[A-Z]/.test(password);
@@ -118,38 +119,23 @@ export default {
     },
 
     async handleSubmit() {
-      this.errorMessage = '';
+      this.clearErrorMessage();
+
       if (this.isRegister) {
         if (this.form.password !== this.form.confirmPassword) {
-          this.errorMessage = "As senhas não coincidem.";
+          this.setErrorMessage('As senhas não coincidem.');
           return;
         }
 
         const passwordError = this.validatePassword(this.form.password);
         if (passwordError) {
-          this.errorMessage = passwordError;
+          this.setErrorMessage(passwordError);
           return;
         }
 
-        try {
-          const userCredential = await createUserWithEmailAndPassword(auth, this.form.email, this.form.password);
-          console.log('Usuário cadastrado:', userCredential.user);
-          notyf.success('Cadastro realizado com sucesso!');
-          router.push('/shoppingList');
-        } catch (error) {
-          console.error("Erro ao cadastrar:", error.message);
-          this.errorMessage = error.message;
-        }
+        await this.registerUser({ email: this.form.email, password: this.form.password });
       } else {
-        try {
-          const userCredential = await signInWithEmailAndPassword(auth, this.form.email, this.form.password);
-          console.log('Usuário logado:', userCredential.user);
-          notyf.success('Login realizado com sucesso!');
-          router.push('/shoppingList');
-        } catch (error) {
-          console.error("Erro ao logar:", error.message);
-          this.errorMessage = "E-mail ou senha inválidos.";
-        }
+        await this.loginUser({ email: this.form.email, password: this.form.password });
       }
     },
 
@@ -162,10 +148,9 @@ export default {
       this.form.email = '';
       this.form.password = '';
       this.form.confirmPassword = '';
-      this.errorMessage = '';
     },
     clearErrorMessage() {
-      this.errorMessage = '';
+      this.setErrorMessage('');
     },
     handleShowValidate(show) {
       this.showValidate = show;

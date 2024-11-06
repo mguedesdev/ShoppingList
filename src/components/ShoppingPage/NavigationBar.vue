@@ -15,24 +15,37 @@
         <font-awesome-icon icon="eye" />
         <span>Visualizar Lista</span>
       </li>
-      <li @click="logout">
+      <li @click="openModal">
         <font-awesome-icon icon="door-open" />
         <span>Sair</span>
       </li>
     </ul>
   </nav>
-</template>
+  <ModalConfirmation v-if="modalOpen" message="Deseja realmente sair ?" @confirm="logoutUser" @cancel="closeModal"
+    icon="door-open" />
 
+</template>
 <script>
 import { mapState, mapActions } from 'vuex';
+import ModalConfirmation from '../Modals/ModalConfirmation.vue';
 
 export default {
   name: 'NavigationBar',
+  components: {
+    ModalConfirmation,
+  },
+  data() {
+    return {
+      modalOpen: false,
+    }
+  },
   computed: {
     ...mapState('shoppingList', ['currentTab', 'isOpenPreview']),
   },
   methods: {
     ...mapActions('shoppingList', ['setCurrentTab', 'setActiveCategory', 'setOpenPreview']),
+    ...mapActions('auth', ['logoutUser']),
+
     selectTab(tab) {
       this.setCurrentTab(tab);
       this.setActiveCategory({
@@ -43,8 +56,11 @@ export default {
     preview() {
       this.setOpenPreview();
     },
-    logout() {
-      this.$router.push('/');
+    openModal() {
+      this.modalOpen = true;
+    },
+    closeModal() {
+      this.modalOpen = false;
     },
 
   },
