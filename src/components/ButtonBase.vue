@@ -47,7 +47,7 @@ export default {
   transition: background-color 0.3s ease;
   font-size: 16px;
   background-color: var(--primary);
-  color: var(--white);
+  color: var(--white1);
 }
 
 .base-button:hover {

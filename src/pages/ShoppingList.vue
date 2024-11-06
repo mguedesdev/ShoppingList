@@ -175,7 +175,7 @@ h1 {
   width: 0;
   overflow: hidden;
   transition: all 0.6s ease;
-  background-color: #e5ddd5;
+  background-color: var(--background-whatsapp);
   border: 1px solid var(--placeholder);
   opacity: 0;
 
@@ -215,7 +215,7 @@ h1 {
     justify-content: space-between;
     align-items: center;
     padding: 10px 10px;
-    background-color: var(--white);
+    background-color: var(--white1);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
     position: fixed;
     top: 0;
@@ -228,11 +228,10 @@ h1 {
 .button-menu-mobile {
   background-color: var(--secondary);
   border: none;
-  color: var(--white);
+  color: var(--white1);
   font-size: 16px;
   font-weight: 500;
   padding: 10px;
   border-radius: 5px;
-  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.25); */
 }
 </style>

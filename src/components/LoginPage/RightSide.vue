@@ -17,20 +17,20 @@
             @input="handlePasswordInput" @showValidate="handleShowValidate" />
 
           <div v-if="isRegister" :class="{ focused: showValidate }" class="password-validation">
-            <div class="validation-item">
-              <font-awesome-icon icon="circle-check" :class="{ 'valid-icon': hasMinLength }" />
+            <div class="validation-item" :class="{ 'valid-icon': hasMinLength }">
+              <font-awesome-icon icon="circle-check" />
               <p>A senha deve ter pelo menos 6 caracteres.</p>
             </div>
-            <div class="validation-item">
-              <font-awesome-icon icon="circle-check" :class="{ 'valid-icon': hasUpperCase }" />
+            <div class="validation-item" :class="{ 'valid-icon': hasUpperCase }">
+              <font-awesome-icon icon="circle-check" />
               <p>A senha deve conter pelo menos uma letra maiúscula.</p>
             </div>
-            <div class="validation-item">
-              <font-awesome-icon icon="circle-check" :class="{ 'valid-icon': hasLowerCase }" />
+            <div class="validation-item" :class="{ 'valid-icon': hasLowerCase }">
+              <font-awesome-icon icon="circle-check" />
               <p>A senha deve conter pelo menos uma letra minúscula.</p>
             </div>
-            <div class="validation-item">
-              <font-awesome-icon icon="circle-check" :class="{ 'valid-icon': hasNumber }" />
+            <div class="validation-item" :class="{ 'valid-icon': hasNumber }">
+              <font-awesome-icon icon="circle-check" />
               <p>A senha deve conter pelo menos um número.</p>
             </div>
           </div>
@@ -170,10 +170,18 @@ export default {
       this.form.email = '';
       this.form.password = '';
       this.form.confirmPassword = '';
+      this.form.rememberMe = false;
+      this.hasMinLength = false;
+      this.hasUpperCase = false;
+      this.hasLowerCase = false;
+      this.hasNumber = false;
+      this.showValidate = false;
     },
+
     clearErrorMessage() {
       this.setErrorMessage('');
     },
+
     handleShowValidate(show) {
       this.showValidate = show;
     },
@@ -218,7 +226,7 @@ export default {
 }
 
 .list-icon {
-  color: var(--white);
+  color: var(--white1);
   font-size: 24px;
 }
 
@@ -249,7 +257,7 @@ export default {
   width: 100%;
   padding: 10px;
   background-color: var(--secondary);
-  color: var(--white);
+  color: var(--white1);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -300,8 +308,8 @@ export default {
 }
 
 .error-message {
-  background-color: #ff746c;
-  color: white;
+  background-color: var(--error-message);
+  color: var(--white1);
   font-size: 14px;
   padding: 5px;
   border-radius: 5px;
@@ -315,6 +323,7 @@ export default {
   display: flex;
   gap: 5px;
   align-items: center;
+  color: var(--timestamp);
 }
 
 .password-validation {
@@ -338,12 +347,11 @@ export default {
   padding-bottom: 10px;
 }
 
-.validation-item .valid-icon {
+.validation-item.valid-icon {
   color: var(--success);
 }
 
-.validation-item font-awesome-icon {
-  color: var(--secondary);
+.validation-item svg {
   font-size: 16px;
 }
 
@@ -389,7 +397,7 @@ export default {
 
 #rememberMe:checked::before {
   content: "\2713";
-  color: var(--white);
+  color: var(--white1);
   font-size: 12px;
   font-weight: bold;
   display: flex;

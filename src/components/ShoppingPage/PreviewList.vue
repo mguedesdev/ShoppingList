@@ -118,20 +118,20 @@ export default {
 
 .message.sent {
   align-self: flex-end;
-  background-color: #DCF8C6;
-  color: #000;
+  background-color: var(--sent-message);
+  color: var(--black);
 }
 
 .message.received {
   align-self: flex-start;
-  background-color: #fff;
-  color: #000;
-  border: 1px solid #ccc;
+  background-color: var(--white);
+  color: var(--black);
+  border: 1px solid var(--gray);
 }
 
 .timestamp {
   font-size: 10px;
-  color: #999;
+  color: var(--timestamp);
   position: absolute;
   bottom: -15px;
   right: 10px;
@@ -169,7 +169,7 @@ export default {
   padding: 10px 20px;
   width: 100%;
   background-color: var(--success);
-  color: var(--white);
+  color: var(--white1);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -208,7 +208,7 @@ export default {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: var(--white);
+    background-color: var(--white1);
     z-index: 1000;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   }

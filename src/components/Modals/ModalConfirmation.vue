@@ -53,7 +53,7 @@ export default {
 
 <style scoped>
 .modal {
-  background: var(--white);
+  background: var(--white1);
   padding: 20px;
   border-radius: 8px;
   text-align: center;
@@ -78,7 +78,7 @@ export default {
 .icon-container {
   width: 70px;
   height: 70px;
-  background-color: var(--white);
+  background-color: var(--white1);
   border-radius: 50%;
   position: absolute;
   top: 00%;

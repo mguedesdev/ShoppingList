@@ -191,7 +191,7 @@ export default {
     position: fixed;
     bottom: 0;
     left: 0;
-    background-color: var(--white);
+    background-color: var(--white1);
     padding: 10px;
     border-top: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);

@@ -68,7 +68,7 @@ export default {
   display: flex;
   flex-direction: column;
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
-  background-color: var(--white);
+  background-color: var(--white1);
 
   @media (max-width: 768px) {
     width: 100%;
@@ -130,13 +130,13 @@ export default {
 
 .category-list li.active {
   background-color: var(--primary);
-  color: var(--white);
+  color: var(--white1);
 }
 
 .category-list li:hover {
   background-color: var(--primary-hover);
   border-radius: 5px;
-  color: var(--white);
+  color: var(--white1);
 }
 
 .category-list li span {
@@ -154,7 +154,7 @@ export default {
 .category-list li.disabled {
   background-color: var(--placeholder);
   cursor: default;
-  color: var(--white);
+  color: var(--white1);
 }
 
 .close-categories-mobile {

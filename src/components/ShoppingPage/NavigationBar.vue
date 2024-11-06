@@ -96,7 +96,7 @@ export default {
   @media (max-width: 768px) {
     height: 100%;
     width: 100%;
-    background-color: var(--white);
+    background-color: var(--white1);
     flex-direction: column;
     justify-content: start;
     align-items: center;

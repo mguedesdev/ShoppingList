@@ -6,19 +6,20 @@
 
 body {
   font-family: var(--font-family-Inter);
-  background-color: var(--white);
+  background-color: var(--white1);
   color: var(--secondary);
 }
 
 :root {
-  --background: #ffe5d0;
   --background-login: #fcddba;
   --primary: #fd7e34;
   --primary-hover: #ff6600;
   --secondary: #141144;
   --secondary-hover: #19145f;
-  --white: #f5f5f5;
+  --white1: #f5f5f5;
+  --white: #ffffff;
   --black: #000000;
+  --gray: #ccc;
   --border-itens: #D9D9D9;
   --placeholder: #C4C4C4;
   --font-family-Inter: 'Inter', sans-serif;
@@ -29,6 +30,12 @@ body {
   --scrollbar-bg: transparent;
   --scrollbar-thumb: var(--primary);
   --scrollbar-thumb-radius: 10px;
+
+  --error-message: #ff746c;
+
+  --sent-message: #DCF8C6;
+  --timestamp: #999;
+  --background-whatsapp: #e5ddd5;
 }
 
 ::-webkit-scrollbar {
