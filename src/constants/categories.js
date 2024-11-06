@@ -1,0 +1,16 @@
+export const categories = [
+  { name: 'Alimentos Básicos', icon: 'bowl-food' },
+  { name: 'Laticínios e Ovos', icon: 'egg' },
+  { name: 'Proteínas', icon: 'cow' },
+  { name: 'Pães e Produtos de Panificação', icon: 'bread-slice' },
+  { name: 'Grãos e Cereais', icon: 'wheat-awn' },
+  { name: 'Frutas, Verduras e Legumes', icon: 'apple-alt' },
+  { name: 'Congelados', icon: 'snowflake' },
+  { name: 'Bebidas', icon: 'wine-bottle' },
+  { name: 'Higiene Pessoal', icon: 'soap' },
+  { name: 'Produtos de Limpeza', icon: 'pump-soap' },
+  { name: 'Higiene da Casa', icon: 'broom' },
+  { name: 'Snacks e Petiscos', icon: 'cookie-bite' },
+  { name: 'Condimentos e Molhos', icon: 'pepper-hot' },
+  { name: 'Utensílios Descartáveis', icon: 'utensils' },
+];

@@ -29,6 +29,8 @@ export default {
 
   getSubCategories: (state) => {
     const selectedCategory = state.selectedItems.filter(category => {
+      console.log("category.categoryName", category.categoryName)
+      console.log("state.activeCategory.name", state.activeCategory.name)
       return category.categoryName === state.activeCategory.name
     }
     )[0].subcategories

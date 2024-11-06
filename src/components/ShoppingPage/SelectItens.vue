@@ -41,6 +41,7 @@ import ItemList from '../ItemList.vue';
 import LoadingSpinner from '../LoadingSpinner.vue';
 import SearchInput from '../SearchInput.vue';
 import { mapState, mapActions, mapGetters } from 'vuex';
+import { handleCustomItensTab } from '@/utils/navigationUtils';
 
 export default {
   name: 'SelectItens',
@@ -64,7 +65,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions('shoppingList', ['addItem', 'removeItem', 'setCurrentTab', 'setActiveCategory']),
+    ...mapActions('shoppingList', ['addItem', 'removeItem', 'setCurrentTab', 'setActiveCategory', 'setOrderedSelectedItems']),
 
     isItemAdded(item, subcategoryName, parentCategory) {
       const category = this.selectedItems.find(cat => cat.categoryName === parentCategory);
@@ -82,6 +83,7 @@ export default {
         subcategoryName: subcategoryName,
         parentCategory: parentCategory,
       });
+      console.log(this.selectedItems);
     },
 
     removeItemFromStore(item, subcategoryName, parentCategory) {
@@ -94,11 +96,8 @@ export default {
 
     nextStep() {
       this.setCurrentTab('CustomItens');
-      this.setActiveCategory({
-        id: 'alimentos_basicos',
-        name: 'Alimentos Básicos',
-      })
-    },
+      handleCustomItensTab(this.selectedItems, this.setOrderedSelectedItems, this.setActiveCategory);
+    }
   },
 };
 </script>

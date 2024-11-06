@@ -7,7 +7,7 @@
     </div>
 
     <div class="message received">
-      <p>Essa é a sua lista de compras:</p>
+      <p>Sua lista de compras será enviada nesse formato:</p>
       <span class="timestamp">11:01 AM</span>
     </div>
 

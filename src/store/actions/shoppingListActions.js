@@ -1,6 +1,7 @@
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/firebase/firebase';
-import { SET_SUBCATEGORIES, SET_LOADING, SET_CURRENT_TAB, SET_ACTIVE_CATEGORY, ADD_ITEM, REMOVE_ITEM, SET_OPEN_PREVIEW } from '../types/mutationTypes';
+import { SET_SUBCATEGORIES, SET_LOADING, SET_CURRENT_TAB, SET_ACTIVE_CATEGORY, ADD_ITEM, REMOVE_ITEM, SET_OPEN_PREVIEW, SET_ORDERED_SELECTED_ITEMS } from '../types/mutationTypes';
+import { reorderSelectedItems } from '@/utils/reorderItems';
 
 export default {
   async fetchSubcategories({ commit }, categoryName) {
@@ -39,6 +40,12 @@ export default {
 
   setOpenPreview({ commit } ) {
     commit(SET_OPEN_PREVIEW)
+  },
+
+  setOrderedSelectedItems({ commit, state }) {
+    const orderedItems = reorderSelectedItems(state.selectedItems);
+    commit(SET_ORDERED_SELECTED_ITEMS, orderedItems);
   }
+
   
 };

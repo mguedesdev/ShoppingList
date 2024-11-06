@@ -41,12 +41,15 @@
       </div>
     </template>
   </div>
+  <ModalConfirmation v-if="modalOpen" message="Deseja realmente excluir o item?" @confirm="deleteConfirmedItem"
+    @cancel="closeModal" icon="door-open" />
 </template>
 
 <script>
 import AccordionCategory from '../AccordionCategory.vue';
 import ButtonBase from '../ButtonBase.vue';
 import ItemList from '../ItemList.vue';
+import ModalConfirmation from '../Modals/ModalConfirmation.vue';
 import SearchInput from '../SearchInput.vue';
 import { mapActions, mapGetters, mapState } from 'vuex';
 
@@ -57,10 +60,15 @@ export default {
     ItemList,
     AccordionCategory,
     ButtonBase,
+    ModalConfirmation,
+
   },
   data() {
     return {
       searchQuery: '',
+      modalOpen: false,
+      itemToDelete: null,
+      originalQuantity: null,
     };
   },
   computed: {
@@ -78,26 +86,48 @@ export default {
       this.$store.dispatch('shoppingList/addItem', {
         itemName: item.itemName,
         subcategoryName,
-        parentCategory
+        parentCategory,
       });
     },
+
     sendList() {
       this.setOpenPreview();
     },
+
     decrementQuantity(item, subcategoryName, parentCategory) {
-      if (item.quantity > 0) {
+      if (item.quantity > 1) {
         item.quantity--;
+      } else if (item.quantity === 1) {
+        this.originalQuantity = item.quantity;
+        this.itemToDelete = { item, subcategoryName, parentCategory };
+        this.modalOpen = true;
       }
-      if (item.quantity === 0) {
+    },
+
+    incrementQuantity(item, subcategoryName, parentCategory) {
+      this.addItemToStore(item, subcategoryName, parentCategory);
+    },
+
+    deleteConfirmedItem() {
+      if (this.itemToDelete) {
+        const { item, subcategoryName, parentCategory } = this.itemToDelete;
         this.$store.dispatch('shoppingList/removeItem', {
           itemName: item.itemName,
           subcategoryName,
-          parentCategory
+          parentCategory,
         });
+        this.itemToDelete = null;
+        this.originalQuantity = null;
+        this.modalOpen = false;
       }
     },
-    incrementQuantity(item, subcategoryName, parentCategory) {
-      this.addItemToStore(item, subcategoryName, parentCategory);
+    closeModal() {
+      if (this.itemToDelete && this.originalQuantity !== null) {
+        this.itemToDelete.item.quantity = this.originalQuantity;
+      }
+      this.modalOpen = false;
+      this.itemToDelete = null;
+      this.originalQuantity = null;
     },
   },
 

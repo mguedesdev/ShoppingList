@@ -14,40 +14,21 @@
 </template>
 
 <script>
-import normalizeWord from '@/utils/normalizeWord';
+import { normalizeWord } from '@/utils/normalizeWord';
 import { mapState, mapActions, mapGetters } from 'vuex';
+import { categories } from '@/constants/categories';
 
 export default {
   name: 'SideBar',
-  data() {
-    return {
-      categories: [
-        { name: 'Alimentos Básicos', icon: 'bowl-food' },
-        { name: 'Laticínios e Ovos', icon: 'egg' },
-        { name: 'Proteínas', icon: 'cow' },
-        { name: 'Pães e Produtos de Panificação', icon: 'bread-slice' },
-        { name: 'Grãos e Cereais', icon: 'wheat-awn' },
-        { name: 'Frutas, Verduras e Legumes', icon: 'apple-alt' },
-        { name: 'Congelados', icon: 'snowflake' },
-        { name: 'Bebidas', icon: 'wine-bottle' },
-        { name: 'Higiene Pessoal', icon: 'soap' },
-        { name: 'Produtos de Limpeza', icon: 'pump-soap' },
-        { name: 'Higiene da Casa', icon: 'broom' },
-        { name: 'Snacks e Petiscos', icon: 'cookie-bite' },
-        { name: 'Condimentos e Molhos', icon: 'pepper-hot' },
-        { name: 'Utensílios Descartáveis', icon: 'utensils' },
-      ]
-    };
-  },
   computed: {
     ...mapState('shoppingList', ['activeCategory', 'currentTab']),
     ...mapGetters('shoppingList', ['selectedCategories']),
 
     filteredCategories() {
       if (this.currentTab === 'CustomItens') {
-        return this.categories.filter(category => this.selectedCategories.includes(category.name));
+        return categories.filter(category => this.selectedCategories.includes(category.name));
       } else {
-        return this.categories;
+        return categories;
       }
     }
 

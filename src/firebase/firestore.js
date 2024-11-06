@@ -1,6 +1,6 @@
 import { doc, setDoc } from "firebase/firestore";
 import { db } from './firebase';
-import normalizeWord from "@/utils/normalizeWord";
+import { normalizeWord } from "@/utils/normalizeWord";
 
 const addCategoriesToFirestore = async (categoriesData) => {
   try {

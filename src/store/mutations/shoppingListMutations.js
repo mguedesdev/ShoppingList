@@ -1,8 +1,11 @@
-import { SET_SUBCATEGORIES, SET_LOADING, ADD_ITEM, REMOVE_ITEM, SET_ACTIVE_CATEGORY, SET_CURRENT_TAB, SET_OPEN_PREVIEW } from '../types/mutationTypes';
+import { SET_SUBCATEGORIES, SET_LOADING, ADD_ITEM, REMOVE_ITEM, SET_ACTIVE_CATEGORY, SET_CURRENT_TAB, SET_OPEN_PREVIEW, SET_ORDERED_SELECTED_ITEMS } from '../types/mutationTypes';
 
 export default {
   [SET_SUBCATEGORIES](state, subcategories) {
     state.subcategories = subcategories;
+  },
+  [SET_ORDERED_SELECTED_ITEMS](state, orderedItems) {
+    state.selectedItems = orderedItems;
   },
   [SET_LOADING](state, isLoading) {
     state.isLoading = isLoading;
@@ -68,6 +71,7 @@ export default {
   },
   
   [SET_ACTIVE_CATEGORY](state, category) {
+    console.log('Updating activeCategory:', category);
     state.activeCategory = category;
   },
   [SET_CURRENT_TAB](state, tab) {

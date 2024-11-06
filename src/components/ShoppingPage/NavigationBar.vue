@@ -28,6 +28,8 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import ModalConfirmation from '../Modals/ModalConfirmation.vue';
+import { handleCustomItensTab } from '@/utils/navigationUtils';
+
 
 export default {
   name: 'NavigationBar',
@@ -40,18 +42,17 @@ export default {
     }
   },
   computed: {
-    ...mapState('shoppingList', ['currentTab', 'isOpenPreview']),
+    ...mapState('shoppingList', ['currentTab', 'isOpenPreview', 'selectedItems']),
   },
   methods: {
-    ...mapActions('shoppingList', ['setCurrentTab', 'setActiveCategory', 'setOpenPreview']),
+    ...mapActions('shoppingList', ['setCurrentTab', 'setActiveCategory', 'setOpenPreview', 'setOrderedSelectedItems']),
     ...mapActions('auth', ['logoutUser']),
 
     selectTab(tab) {
       this.setCurrentTab(tab);
-      this.setActiveCategory({
-        id: 'alimentos_basicos',
-        name: 'Alimentos Básicos',
-      })
+      if (tab === 'CustomItens') {
+        handleCustomItensTab(this.selectedItems, this.setOrderedSelectedItems, this.setActiveCategory);
+      }
     },
     preview() {
       this.setOpenPreview();
