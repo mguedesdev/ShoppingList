@@ -9,6 +9,8 @@
 
 #### 🌐  [ Veja o Projeto Online](https://shopping-list-mgr.vercel.app/)
 
+#### 🎨 [ Veja o Design no Figma](https://www.figma.com/design/3kvzOGel4LoXX7pZF2PGYW/Shoppin-List?node-id=0-1&node-type=canvas&t=uL11FrR4K9jpfLcH-0)
+
 ## 🚀 Descrição Geral
 
 O Shopping List é uma aplicação desenvolvida para gerenciar listas de compras, permitindo ao usuário selecionar itens, personalizar quantidades e enviar a lista para o WhatsApp com uma formatação automática e intuitiva.
