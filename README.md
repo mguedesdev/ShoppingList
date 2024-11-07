@@ -29,7 +29,7 @@ O Shopping List é uma aplicação desenvolvida para gerenciar listas de compras
 Clone o repositório:
 
 ```bash
-git clone git@github.com:mguedesdev/ShoppingList.git
+git clone git@github.com:mguedesdev/shopping-list.git
 ```
 
 Acesse o diretório do projeto:
